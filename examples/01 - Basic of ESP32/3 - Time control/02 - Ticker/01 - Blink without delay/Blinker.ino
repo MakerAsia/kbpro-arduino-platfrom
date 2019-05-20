@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Ticker.h>
 
-// attach a LED to pPIO 21
-#define LED_PIN 21
+// attach a LED to pPIO 2
+#define LED_PIN 2
 
 Ticker blinker;
 Ticker toggler;

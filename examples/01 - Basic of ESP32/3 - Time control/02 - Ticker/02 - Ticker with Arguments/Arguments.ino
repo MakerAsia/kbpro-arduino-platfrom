@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Ticker.h>
 
-// attach a LED to GPIO 21
-#define LED_PIN 21
+// attach a LED to GPIO 2
+#define LED_PIN 2
 
 Ticker tickerSetHigh;
 Ticker tickerSetLow;

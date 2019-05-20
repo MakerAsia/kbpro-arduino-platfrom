@@ -50,13 +50,13 @@ Blockly.JavaScript['basic_string'] = function(block) {
   Blockly.JavaScript['text_length'] = function(block) {
     // String or array length.
     var text = Blockly.JavaScript.valueToCode(block, 'VALUE',Blockly.JavaScript.ORDER_FUNCTION_CALL) || 'String("")';
-    return [text + '.length', Blockly.JavaScript.ORDER_MEMBER];
+    return [text + '.length()', Blockly.JavaScript.ORDER_MEMBER];
   };
   
   Blockly.JavaScript['text_isEmpty'] = function(block) {
     // Is the string null or array empty?
     var text = Blockly.JavaScript.valueToCode(block, 'VALUE',Blockly.JavaScript.ORDER_MEMBER) || 'String("")';
-    return ['(' + text + '.length == 0)', Blockly.JavaScript.ORDER_LOGICAL_NOT];
+    return ['(' + text + '.length() == 0)', Blockly.JavaScript.ORDER_LOGICAL_NOT];
   };
   
   Blockly.JavaScript['text_indexOf'] = function(block) {
@@ -130,28 +130,28 @@ Blockly.JavaScript['basic_string'] = function(block) {
   Blockly.JavaScript['text_changeCase'] = function(block) {
     // Change capitalization.
     var OPERATORS = {
-      'UPPERCASE': '.toUpperCase()',
-      'LOWERCASE': '.toLowerCase()',
+      'UPPERCASE': '.toUpperCase();\n',
+      'LOWERCASE': '.toLowerCase();\n',
     };
     var operator = OPERATORS[block.getFieldValue('CASE')];
     var textOrder = operator ? Blockly.JavaScript.ORDER_MEMBER : Blockly.JavaScript.ORDER_NONE;
     var text = Blockly.JavaScript.valueToCode(block, 'TEXT', textOrder) || 'String("")';
     var code = text + operator;    
-    return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+    return code;
   };
   
   Blockly.JavaScript['text_trim'] = function(block) {
     var text = Blockly.JavaScript.valueToCode(block, 'TEXT',Blockly.JavaScript.ORDER_MEMBER) || 'String("")';
-    var operator = '.trim()';
-    return [text + operator, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+    var operator = '.trim();\n';
+    return text + operator;
   };
   
   Blockly.JavaScript['text_replace'] = function(block) {
     var text = Blockly.JavaScript.valueToCode(block, 'TEXT',Blockly.JavaScript.ORDER_MEMBER) || 'String("")';
     var from = Blockly.JavaScript.valueToCode(block, 'FROM',Blockly.JavaScript.ORDER_NONE) || 'String("")';
     var to = Blockly.JavaScript.valueToCode(block, 'TO',Blockly.JavaScript.ORDER_NONE) || 'String("")';
-    var code =  `${text}.replace(${from},${to})`;
-    return [code, Blockly.JavaScript.ORDER_MEMBER];
+    var code =  `${text}.replace(${from},${to});\n`;
+    return code;
   };
 
 }

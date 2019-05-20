@@ -434,15 +434,16 @@ Blockly.Blocks['text_changeCase'] = {
   init: function() {
     var OPERATORS = [
       [Blockly.Msg.TEXT_CHANGECASE_OPERATOR_UPPERCASE, 'UPPERCASE'],
-      [Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE, 'LOWERCASE'],
-      [Blockly.Msg.TEXT_CHANGECASE_OPERATOR_TITLECASE, 'TITLECASE']
+      [Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE, 'LOWERCASE']
     ];
     this.setHelpUrl(Blockly.Msg.TEXT_CHANGECASE_HELPURL);
     this.setColour(Blockly.Msg.TEXTS_HUE);
     this.appendValueInput('TEXT')
         .setCheck('String')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'CASE');
-    this.setOutput(true, 'String');
+    this.setOutput(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setTooltip(Blockly.Msg.TEXT_CHANGECASE_TOOLTIP);
   }
 };
@@ -458,7 +459,9 @@ Blockly.Blocks['text_trim'] = {
     this.appendValueInput('TEXT')
         .setCheck('String')
         .appendField("trim");
-    this.setOutput(true, 'String');
+    this.setOutput(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setTooltip(Blockly.Msg.TEXT_TRIM_TOOLTIP);
   }
 };
@@ -488,7 +491,8 @@ Blockly.Blocks['text_replace'] = {
           "check": "String"
         }
       ],
-      "output": "String",
+      "previousStatement": null,
+      "nextStatement": null,
       "inputsInline": true,
       "colour": Blockly.Msg.TEXTS_HUE,
       "tooltip": Blockly.Msg.TEXT_REPLACE_TOOLTIP,

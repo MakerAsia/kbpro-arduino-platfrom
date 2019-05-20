@@ -65,7 +65,7 @@ Blockly.Blocks['io_analog_write'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("analog write pin")
-        .appendField(new Blockly.FieldDropdown([["25","DAC1 GPIO25"], ["26","DAC2 GPIO26"]]), "pin");
+        .appendField(new Blockly.FieldDropdown([["DAC1 GPIO25","25"], ["DAC2 GPIO26","26"]]), "pin");
     this.appendValueInput("value")
         .setCheck("Number")
         .appendField("value");
