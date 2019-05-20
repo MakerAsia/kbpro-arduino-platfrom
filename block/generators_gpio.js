@@ -30,7 +30,7 @@ Blockly.JavaScript['io_analog_read'] = function(block) {
 Blockly.JavaScript['io_analog_write'] = function(block) {
   var value_pin = Blockly.JavaScript.valueToCode(block, 'pin', Blockly.JavaScript.ORDER_ATOMIC);
   var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);  
-  var code = '...;\n';
+  var code = `dacWrite(${value_pin},${value_value});\n`;
   return code;
 };
 
