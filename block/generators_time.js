@@ -7,6 +7,13 @@ Blockly.JavaScript['time_delay'] = function(block) {
   return code;
 };
 
+Blockly.JavaScript['time_delay_microsec'] = function(block) {
+    var value_delay = Blockly.JavaScript.valueToCode(block, 'delay', Blockly.JavaScript.ORDER_ATOMIC);
+    var code = `delayMicroseconds(${value_delay});\n`;
+    return code;
+};
+
+
 Blockly.JavaScript['time_wait_btn_press'] = function(block) {
   var dropdown_name = block.getFieldValue('NAME');  
   var code = `while(!digitalRead(${dropdown_name}));\n`;

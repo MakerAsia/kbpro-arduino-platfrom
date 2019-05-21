@@ -101,7 +101,7 @@ module.exports = {
             LOOP_CODE : source_code,
             LOOP_EXT_CODE : loop_ext_code,
             plugins_includes_switch : plugins_includes_switch,
-			plugins_sources : plugins_sources,
+			      plugins_sources : plugins_sources,
         }
     },
 	generate : function(rawCode){

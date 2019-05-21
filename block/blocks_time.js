@@ -17,6 +17,22 @@ Blockly.Blocks['time_delay'] = {
   }
 };
 
+  Blockly.Blocks['time_delay_microsec'] = {
+    init: function() {
+      this.appendValueInput("delay")
+      .setCheck("Number")
+      .appendField("delay");
+      this.appendDummyInput()
+      .appendField("microseconds");
+      this.setInputsInline(true);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(0);
+      this.setTooltip("pause running program for awhile");
+      this.setHelpUrl("");
+    }
+  };
+
 Blockly.Blocks['time_wait_btn_press'] = {
   init: function() {
     this.appendDummyInput()
