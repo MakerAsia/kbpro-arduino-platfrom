@@ -21,7 +21,9 @@ Blockly.JavaScript['time_wait_btn_press'] = function(block) {
 };
 
 Blockly.JavaScript['time_sync'] = function(block) {  
-  var code = `kbprotime.sync();\n`;
+  var code = `#EXTINC#include "KBProTime.h"#END
+#VARIABLE KBProTime kbprotime;#END
+kbprotime.sync();\n`;
   return code;
 };
 

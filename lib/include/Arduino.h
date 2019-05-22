@@ -120,6 +120,8 @@
 typedef bool boolean;
 typedef uint8_t byte;
 typedef unsigned int word;
+typedef int Number;
+typedef int Boolean;
 
 void setup(void);
 void loop(void);
