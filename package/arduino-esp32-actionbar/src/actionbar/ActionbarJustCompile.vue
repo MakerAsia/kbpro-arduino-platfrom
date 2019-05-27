@@ -122,7 +122,6 @@
           resolve({mac: "ff:ff:ff:ff:ff:ff"});
         });
         p.then(boardMac => {
-          //that.stepResult["1"].msg += ` MAC ${boardMac.mac}`;
           mac = boardMac.mac;
           boardName = mac.replace(/:/g, "-");
           this.updateCompileStep(2);
@@ -141,7 +140,9 @@
           };
           return boardCompiler.compile(rawCode, boardName, config, (status) => {
             this.updateCompileStep(2);
-            this.stepResult["2"].msg = status;
+            if (!this.failed) {
+              this.stepResult["2"].msg = status;
+            }
           });
         }).then(() => {
           this.updateCompileStep(3);
@@ -149,13 +150,24 @@
           console.log("---> step 3 <---");
         }).catch(err => {
           console.log("------ process error ------");
-          console.log(err);
-          this.failed = true;
+          let file, line_error;
+          let fn_error, f;
+          if (err.error) {
+            ([file, line_error] = err.error.stderr.split("error:"));
+            this.stepResult["2"].msg = line_error;
+            this.stepResult["2"].msg = line_error;
+            [f, fn_error] = file.split("user_app.cpp:");
+            console.error("line_file", file);
+            console.error("line_error", line_error);
+            this.failed = true;
+          }
+          console.warn(`fn_error=`, fn_error);
+          console.warn(`file=`, file);
           if (this.compileStep == 1) {
             this.stepResult["1"].msg = "Cannot find KidBright : " + err;
             this.stepResult["1"].result = false;
           } else if (this.compileStep == 2) {
-            this.stepResult["2"].msg = "Compile error : " + err;
+            this.stepResult["2"].msg = `${fn_error.split(":")[0]} ${line_error}`;
             this.stepResult["2"].result = false;
           } else if (this.compileStep == 3) {
             this.stepResult["3"].msg = "Cannot upload program : " + err;

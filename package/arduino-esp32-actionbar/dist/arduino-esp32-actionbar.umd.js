@@ -136,6 +136,148 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "024e":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isRegExp = __webpack_require__("2122");
+var anObject = __webpack_require__("0210");
+var speciesConstructor = __webpack_require__("205f");
+var advanceStringIndex = __webpack_require__("729bb");
+var toLength = __webpack_require__("3e3a");
+var callRegExpExec = __webpack_require__("6ac2");
+var regexpExec = __webpack_require__("729b");
+var fails = __webpack_require__("5aa6");
+var $min = Math.min;
+var $push = [].push;
+var $SPLIT = 'split';
+var LENGTH = 'length';
+var LAST_INDEX = 'lastIndex';
+var MAX_UINT32 = 0xffffffff;
+
+// babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
+var SUPPORTS_Y = !fails(function () { RegExp(MAX_UINT32, 'y'); });
+
+// @@split logic
+__webpack_require__("31a8")('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
+  var internalSplit;
+  if (
+    'abbc'[$SPLIT](/(b)*/)[1] == 'c' ||
+    'test'[$SPLIT](/(?:)/, -1)[LENGTH] != 4 ||
+    'ab'[$SPLIT](/(?:ab)*/)[LENGTH] != 2 ||
+    '.'[$SPLIT](/(.?)(.?)/)[LENGTH] != 4 ||
+    '.'[$SPLIT](/()()/)[LENGTH] > 1 ||
+    ''[$SPLIT](/.?/)[LENGTH]
+  ) {
+    // based on es5-shim implementation, need to rework it
+    internalSplit = function (separator, limit) {
+      var string = String(this);
+      if (separator === undefined && limit === 0) return [];
+      // If `separator` is not a regex, use native split
+      if (!isRegExp(separator)) return $split.call(string, separator, limit);
+      var output = [];
+      var flags = (separator.ignoreCase ? 'i' : '') +
+                  (separator.multiline ? 'm' : '') +
+                  (separator.unicode ? 'u' : '') +
+                  (separator.sticky ? 'y' : '');
+      var lastLastIndex = 0;
+      var splitLimit = limit === undefined ? MAX_UINT32 : limit >>> 0;
+      // Make `global` and avoid `lastIndex` issues by working with a copy
+      var separatorCopy = new RegExp(separator.source, flags + 'g');
+      var match, lastIndex, lastLength;
+      while (match = regexpExec.call(separatorCopy, string)) {
+        lastIndex = separatorCopy[LAST_INDEX];
+        if (lastIndex > lastLastIndex) {
+          output.push(string.slice(lastLastIndex, match.index));
+          if (match[LENGTH] > 1 && match.index < string[LENGTH]) $push.apply(output, match.slice(1));
+          lastLength = match[0][LENGTH];
+          lastLastIndex = lastIndex;
+          if (output[LENGTH] >= splitLimit) break;
+        }
+        if (separatorCopy[LAST_INDEX] === match.index) separatorCopy[LAST_INDEX]++; // Avoid an infinite loop
+      }
+      if (lastLastIndex === string[LENGTH]) {
+        if (lastLength || !separatorCopy.test('')) output.push('');
+      } else output.push(string.slice(lastLastIndex));
+      return output[LENGTH] > splitLimit ? output.slice(0, splitLimit) : output;
+    };
+  // Chakra, V8
+  } else if ('0'[$SPLIT](undefined, 0)[LENGTH]) {
+    internalSplit = function (separator, limit) {
+      return separator === undefined && limit === 0 ? [] : $split.call(this, separator, limit);
+    };
+  } else {
+    internalSplit = $split;
+  }
+
+  return [
+    // `String.prototype.split` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.split
+    function split(separator, limit) {
+      var O = defined(this);
+      var splitter = separator == undefined ? undefined : separator[SPLIT];
+      return splitter !== undefined
+        ? splitter.call(separator, O, limit)
+        : internalSplit.call(String(O), separator, limit);
+    },
+    // `RegExp.prototype[@@split]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@split
+    //
+    // NOTE: This cannot be properly polyfilled in engines that don't support
+    // the 'y' flag.
+    function (regexp, limit) {
+      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== $split);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+      var C = speciesConstructor(rx, RegExp);
+
+      var unicodeMatching = rx.unicode;
+      var flags = (rx.ignoreCase ? 'i' : '') +
+                  (rx.multiline ? 'm' : '') +
+                  (rx.unicode ? 'u' : '') +
+                  (SUPPORTS_Y ? 'y' : 'g');
+
+      // ^(? + rx + ) is needed, in combination with some S slicing, to
+      // simulate the 'y' flag.
+      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
+      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+      if (lim === 0) return [];
+      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
+      var p = 0;
+      var q = 0;
+      var A = [];
+      while (q < S.length) {
+        splitter.lastIndex = SUPPORTS_Y ? q : 0;
+        var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
+        var e;
+        if (
+          z === null ||
+          (e = $min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
+        ) {
+          q = advanceStringIndex(S, q, unicodeMatching);
+        } else {
+          A.push(S.slice(p, q));
+          if (A.length === lim) return A;
+          for (var i = 1; i <= z.length - 1; i++) {
+            A.push(z[i]);
+            if (A.length === lim) return A;
+          }
+          q = p = e;
+        }
+      }
+      A.push(S.slice(p));
+      return A;
+    }
+  ];
+});
+
+
+/***/ }),
+
 /***/ "02b3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -622,6 +764,47 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "205f":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+var anObject = __webpack_require__("0210");
+var aFunction = __webpack_require__("92c0");
+var SPECIES = __webpack_require__("c71f")('species');
+module.exports = function (O, D) {
+  var C = anObject(O).constructor;
+  var S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
+};
+
+
+/***/ }),
+
+/***/ "208a":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("c360");
+__webpack_require__("8e2c");
+module.exports = __webpack_require__("ffb1");
+
+
+/***/ }),
+
+/***/ "2122":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.2.8 IsRegExp(argument)
+var isObject = __webpack_require__("8197");
+var cof = __webpack_require__("97b6");
+var MATCH = __webpack_require__("c71f")('match');
+module.exports = function (it) {
+  var isRegExp;
+  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : cof(it) == 'RegExp');
+};
+
+
+/***/ }),
+
 /***/ "2367":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -957,6 +1140,17 @@ var min = Math.min;
 module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
+
+
+/***/ }),
+
+/***/ "3e4f":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
+var $export = __webpack_require__("1101");
+
+$export($export.S, 'Array', { isArray: __webpack_require__("9342") });
 
 
 /***/ }),
@@ -2193,6 +2387,18 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "9342":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.2.2 IsArray(argument)
+var cof = __webpack_require__("7cee");
+module.exports = Array.isArray || function isArray(arg) {
+  return cof(arg) == 'Array';
+};
+
+
+/***/ }),
+
 /***/ "93b9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2422,6 +2628,13 @@ module.exports = function (it) {
   return it;
 };
 
+
+/***/ }),
+
+/***/ "aed4":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("ef9b");
 
 /***/ }),
 
@@ -2750,6 +2963,13 @@ module.exports = function (fn, that, length) {
 
 /***/ }),
 
+/***/ "ce64":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("208a");
+
+/***/ }),
+
 /***/ "d06a":
 /***/ (function(module, exports) {
 
@@ -2914,6 +3134,15 @@ module.exports = (
 
 /***/ }),
 
+/***/ "ef9b":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("3e4f");
+module.exports = __webpack_require__("7fe5").Array.isArray;
+
+
+/***/ }),
+
 /***/ "f091":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2988,9 +3217,9 @@ __webpack_require__.d(actionbar_namespaceObject, "ActionbarSetting", function() 
 // This file is imported into lib/wc client bundles.
 
 if (typeof window !== 'undefined') {
-  var i
-  if ((i = window.document.currentScript) && (i = i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
-    __webpack_require__.p = i[1] // eslint-disable-line
+  var setPublicPath_i
+  if ((setPublicPath_i = window.document.currentScript) && (setPublicPath_i = setPublicPath_i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
+    __webpack_require__.p = setPublicPath_i[1] // eslint-disable-line
   }
 }
 
@@ -7432,18 +7661,74 @@ installComponents_default()(component, {
   VTooltip: VTooltip,
 })
 
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=17a815ea&
-var ActionbarJustCompilevue_type_template_id_17a815ea_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-check")])],1),_c('span',[_vm._v("Just Compile")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile Program")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 2)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 2)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_vm._v("\n                    compileStep="+_vm._s(_vm.compileStep)+"\n                    "),_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep >= 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 2 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
-var ActionbarJustCompilevue_type_template_id_17a815ea_staticRenderFns = []
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=6d6710b4&
+var ActionbarJustCompilevue_type_template_id_6d6710b4_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-check")])],1),_c('span',[_vm._v("Just Compile")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile Program")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 2)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 2)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_vm._v("\n                    compileStep="+_vm._s(_vm.compileStep)+"\n                    "),_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep >= 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 2 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
+var ActionbarJustCompilevue_type_template_id_6d6710b4_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=17a815ea&
+// CONCATENATED MODULE: ./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=6d6710b4&
 
+// EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/core-js/modules/es6.regexp.split.js
+var es6_regexp_split = __webpack_require__("024e");
+
+// EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/core-js/array/is-array.js
+var is_array = __webpack_require__("aed4");
+var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array);
+
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/arrayWithHoles.js
+
+function _arrayWithHoles(arr) {
+  if (is_array_default()(arr)) return arr;
+}
+// EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/core-js/get-iterator.js
+var get_iterator = __webpack_require__("ce64");
+var get_iterator_default = /*#__PURE__*/__webpack_require__.n(get_iterator);
+
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/iterableToArrayLimit.js
+
+function _iterableToArrayLimit(arr, i) {
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = get_iterator_default()(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/nonIterableRest.js
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/slicedToArray.js
+
+
+
+function slicedToArray_slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+}
 // EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/core-js/promise.js
 var promise = __webpack_require__("bec9");
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise);
 
 // CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--12-0!/Users/nat/KBProIDE/node_modules/thread-loader/dist/cjs.js!/Users/nat/KBProIDE/node_modules/babel-loader/lib!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=script&lang=js&
+
+
 
 
 //
@@ -7565,7 +7850,6 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
         });
       });
       p.then(function (boardMac) {
-        //that.stepResult["1"].msg += ` MAC ${boardMac.mac}`;
         ActionbarJustCompilevue_type_script_lang_js_mac = boardMac.mac;
         ActionbarJustCompilevue_type_script_lang_js_boardName = ActionbarJustCompilevue_type_script_lang_js_mac.replace(/:/g, "-");
 
@@ -7587,7 +7871,9 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
         return ActionbarJustCompilevue_type_script_lang_js_boardCompiler.compile(rawCode, ActionbarJustCompilevue_type_script_lang_js_boardName, config, function (status) {
           _this.updateCompileStep(2);
 
-          _this.stepResult["2"].msg = status;
+          if (!_this.failed) {
+            _this.stepResult["2"].msg = status;
+          }
         });
       }).then(function () {
         _this.updateCompileStep(3);
@@ -7596,14 +7882,38 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
         console.log("---> step 3 <---");
       }).catch(function (err) {
         console.log("------ process error ------");
-        console.log(err);
-        _this.failed = true;
+        var file, line_error;
+        var fn_error, f;
+
+        if (err.error) {
+          var _err$error$stderr$spl = err.error.stderr.split("error:");
+
+          var _err$error$stderr$spl2 = slicedToArray_slicedToArray(_err$error$stderr$spl, 2);
+
+          file = _err$error$stderr$spl2[0];
+          line_error = _err$error$stderr$spl2[1];
+          _this.stepResult["2"].msg = line_error;
+          _this.stepResult["2"].msg = line_error;
+
+          var _file$split = file.split("user_app.cpp:");
+
+          var _file$split2 = slicedToArray_slicedToArray(_file$split, 2);
+
+          f = _file$split2[0];
+          fn_error = _file$split2[1];
+          console.error("line_file", file);
+          console.error("line_error", line_error);
+          _this.failed = true;
+        }
+
+        console.warn("fn_error=", fn_error);
+        console.warn("file=", file);
 
         if (_this.compileStep == 1) {
           _this.stepResult["1"].msg = "Cannot find KidBright : " + err;
           _this.stepResult["1"].result = false;
         } else if (_this.compileStep == 2) {
-          _this.stepResult["2"].msg = "Compile error : " + err;
+          _this.stepResult["2"].msg = "".concat(fn_error.split(":")[0], " ").concat(line_error);
           _this.stepResult["2"].result = false;
         } else if (_this.compileStep == 3) {
           _this.stepResult["3"].msg = "Cannot upload program : " + err;
@@ -7633,8 +7943,8 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
 
 var ActionbarJustCompile_component = normalizeComponent(
   actionbar_ActionbarJustCompilevue_type_script_lang_js_,
-  ActionbarJustCompilevue_type_template_id_17a815ea_render,
-  ActionbarJustCompilevue_type_template_id_17a815ea_staticRenderFns,
+  ActionbarJustCompilevue_type_template_id_6d6710b4_render,
+  ActionbarJustCompilevue_type_template_id_6d6710b4_staticRenderFns,
   false,
   null,
   null,
@@ -11962,6 +12272,20 @@ module.exports = false;
 
 module.exports = function (done, value) {
   return { value: value, done: !!done };
+};
+
+
+/***/ }),
+
+/***/ "ffb1":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("b9e6");
+var get = __webpack_require__("e3c3");
+module.exports = __webpack_require__("7fe5").getIterator = function (it) {
+  var iterFn = get(it);
+  if (typeof iterFn != 'function') throw TypeError(it + ' is not iterable!');
+  return anObject(iterFn.call(it));
 };
 
 

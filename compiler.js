@@ -42,7 +42,8 @@ const setConfig = (context) => {
   G.board_name = context.board_name;   //require boardname
   G.app_dir = context.app_dir;         //require app_dir
   G.process_dir = context.process_dir; //require working dir
-  G.cb = context.cb || function() { };
+  G.cb = context.cb || function() {
+  };
 
   if (!G.cpp_options) {
     G.cpp_options = [];
@@ -73,6 +74,7 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
 
     //G.cb("callling compileFiles.");
 
+    let hasError = 0;
     sources.forEach(async (file, idx, arr) => {
       let filename = getName(file);
       let fn_obj = `${G.app_dir}/${filename}.o`;
@@ -89,16 +91,24 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
           //reject(stderr);
           console.log(
               `compiling... ${path.basename(file)} ok. (with warnings)`);
-          G.cb(`compiling... ${path.basename(file)} ok. (with warnings)`);
-          // console.log(`${stderr}`);
+          G.cb({
+                 file: path.basename(file),
+                 error: null,
+               });
         }
       } catch (e) {
-        console.log(`compiling... ${file} failed. with ${e}`);
-        G.cb(`compiling... ${file} failed. with ${e}`);
-        reject(`compiling... ${file} failed.`);
+        hasError = true;
+        let _e = {
+          file: file,
+          error: e,
+        };
+        console.error("e>", _e);
+        G.cb(_e);
+        reject(_e);
       }
       if (idx === arr.length - 1) {
-        resolve();
+        if (!hasError)
+          resolve();
       }
     });
   });
