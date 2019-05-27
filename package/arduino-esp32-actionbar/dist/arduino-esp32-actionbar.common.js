@@ -771,16 +771,6 @@ module.exports = function (O, D) {
 
 /***/ }),
 
-/***/ "208a":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("c360");
-__webpack_require__("8e2c");
-module.exports = __webpack_require__("ffb1");
-
-
-/***/ }),
-
 /***/ "2122":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1131,17 +1121,6 @@ var min = Math.min;
 module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
-
-
-/***/ }),
-
-/***/ "3e4f":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
-var $export = __webpack_require__("1101");
-
-$export($export.S, 'Array', { isArray: __webpack_require__("9342") });
 
 
 /***/ }),
@@ -2378,18 +2357,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "9342":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__("7cee");
-module.exports = Array.isArray || function isArray(arg) {
-  return cof(arg) == 'Array';
-};
-
-
-/***/ }),
-
 /***/ "93b9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2619,13 +2586,6 @@ module.exports = function (it) {
   return it;
 };
 
-
-/***/ }),
-
-/***/ "aed4":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("ef9b");
 
 /***/ }),
 
@@ -2954,13 +2914,6 @@ module.exports = function (fn, that, length) {
 
 /***/ }),
 
-/***/ "ce64":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("208a");
-
-/***/ }),
-
 /***/ "d06a":
 /***/ (function(module, exports) {
 
@@ -3125,15 +3078,6 @@ module.exports = (
 
 /***/ }),
 
-/***/ "ef9b":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("3e4f");
-module.exports = __webpack_require__("7fe5").Array.isArray;
-
-
-/***/ }),
-
 /***/ "f091":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3208,9 +3152,9 @@ __webpack_require__.d(actionbar_namespaceObject, "ActionbarSetting", function() 
 // This file is imported into lib/wc client bundles.
 
 if (typeof window !== 'undefined') {
-  var setPublicPath_i
-  if ((setPublicPath_i = window.document.currentScript) && (setPublicPath_i = setPublicPath_i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
-    __webpack_require__.p = setPublicPath_i[1] // eslint-disable-line
+  var i
+  if ((i = window.document.currentScript) && (i = i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
+    __webpack_require__.p = i[1] // eslint-disable-line
   }
 }
 
@@ -7652,73 +7596,21 @@ installComponents_default()(component, {
   VTooltip: VTooltip,
 })
 
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=31ebc330&
-var ActionbarJustCompilevue_type_template_id_31ebc330_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-check")])],1),_c('span',[_vm._v("Just Compile")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile Program")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 2)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 2)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_vm._v("\n                    compileStep="+_vm._s(_vm.compileStep)+"\n                    "),_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep >= 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 2 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
-var ActionbarJustCompilevue_type_template_id_31ebc330_staticRenderFns = []
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=ccb074f0&
+var ActionbarJustCompilevue_type_template_id_ccb074f0_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-check")])],1),_c('span',[_vm._v("Just Compile")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile Program")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 2)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 2)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_vm._v("\n                    compileStep="+_vm._s(_vm.compileStep)+"\n                    "),_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep >= 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 2 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
+var ActionbarJustCompilevue_type_template_id_ccb074f0_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=31ebc330&
+// CONCATENATED MODULE: ./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=ccb074f0&
 
 // EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/core-js/modules/es6.regexp.split.js
 var es6_regexp_split = __webpack_require__("024e");
 
-// EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/core-js/array/is-array.js
-var is_array = __webpack_require__("aed4");
-var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array);
-
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/arrayWithHoles.js
-
-function _arrayWithHoles(arr) {
-  if (is_array_default()(arr)) return arr;
-}
-// EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/core-js/get-iterator.js
-var get_iterator = __webpack_require__("ce64");
-var get_iterator_default = /*#__PURE__*/__webpack_require__.n(get_iterator);
-
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/iterableToArrayLimit.js
-
-function _iterableToArrayLimit(arr, i) {
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = get_iterator_default()(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/nonIterableRest.js
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/helpers/esm/slicedToArray.js
-
-
-
-function slicedToArray_slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
-}
 // EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/@babel/runtime-corejs2/core-js/promise.js
 var promise = __webpack_require__("bec9");
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise);
 
 // CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--12-0!/Users/nat/KBProIDE/node_modules/thread-loader/dist/cjs.js!/Users/nat/KBProIDE/node_modules/babel-loader/lib!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=script&lang=js&
-
 
 
 
@@ -7853,11 +7745,12 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
         ActionbarJustCompilevue_type_script_lang_js_G.editor.blockCode = xml; //----------------------------------------------------//
 
         var rawCode = ActionbarJustCompilevue_type_script_lang_js_G.editor.mode >= 3 ? ActionbarJustCompilevue_type_script_lang_js_G.editor.sourceCode : ActionbarJustCompilevue_type_script_lang_js_G.editor.rawCode;
-        var isSourceCode = ActionbarJustCompilevue_type_script_lang_js_G.editor.mode >= 3 ? true : false;
+        var isSourceCode = ActionbarJustCompilevue_type_script_lang_js_G.editor.mode >= 3;
         var config = {
           board_mac_addr: ActionbarJustCompilevue_type_script_lang_js_mac,
           isSourceCode: isSourceCode
         };
+        console.log("calling boardCompiler.. from ActionbarJustCompile.");
         return ActionbarJustCompilevue_type_script_lang_js_boardCompiler.compile(rawCode, ActionbarJustCompilevue_type_script_lang_js_boardName, config, function (status) {
           _this.updateCompileStep(2);
 
@@ -7872,44 +7765,33 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
         console.log("---> step 3 <---");
       }).catch(function (err) {
         console.log("------ process error ------");
-        var file, line_error;
-        var fn_error, f;
-        console.error("nat error", err);
+        var errors = [];
 
         if (err.error) {
-          var _err$error$stderr$spl = err.error.stderr.split("error:");
-
-          var _err$error$stderr$spl2 = slicedToArray_slicedToArray(_err$error$stderr$spl, 2);
-
-          file = _err$error$stderr$spl2[0];
-          line_error = _err$error$stderr$spl2[1];
-          _this.stepResult["2"].msg = line_error;
-          _this.stepResult["2"].msg = line_error;
-
-          var _file$split = file.split("user_app.cpp:");
-
-          var _file$split2 = slicedToArray_slicedToArray(_file$split, 2);
-
-          f = _file$split2[0];
-          fn_error = _file$split2[1];
-          console.error("line_file", file);
-          console.error("line_error", line_error);
-          _this.failed = true;
+          errors = err.error.stderr.split("\n");
+          errors = errors.filter(function (v) {
+            return v.indexOf("user_app.cpp") > -1;
+          }).map(function (v) {
+            return v.split("user_app.cpp:")[1];
+          });
+        } else {
+          console.error("no err.error", err);
         }
 
-        console.warn("fn_error=", fn_error);
-        console.warn("file=", file);
+        setTimeout(function () {
+          console.error("errors:", errors);
 
-        if (_this.compileStep == 1) {
-          _this.stepResult["1"].msg = "Cannot find KidBright : " + err;
-          _this.stepResult["1"].result = false;
-        } else if (_this.compileStep == 2) {
-          _this.stepResult["2"].msg = "".concat(fn_error && fn_error.split(":")[0], " ").concat(line_error);
-          _this.stepResult["2"].result = false;
-        } else if (_this.compileStep == 3) {
-          _this.stepResult["3"].msg = "Cannot upload program : " + err;
-          _this.stepResult["3"].result = false;
-        }
+          if (_this.compileStep == 1) {
+            _this.stepResult["1"].msg = "";
+            _this.stepResult["1"].result = false;
+          } else if (_this.compileStep == 2) {
+            _this.stepResult["2"].msg = "".concat(errors.join("\n"));
+            _this.stepResult["2"].result = false;
+          } else if (_this.compileStep == 3) {
+            _this.stepResult["3"].msg = "Cannot upload program : " + err;
+            _this.stepResult["3"].result = false;
+          }
+        }, 500);
       });
     }
   },
@@ -7934,8 +7816,8 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
 
 var ActionbarJustCompile_component = normalizeComponent(
   actionbar_ActionbarJustCompilevue_type_script_lang_js_,
-  ActionbarJustCompilevue_type_template_id_31ebc330_render,
-  ActionbarJustCompilevue_type_template_id_31ebc330_staticRenderFns,
+  ActionbarJustCompilevue_type_template_id_ccb074f0_render,
+  ActionbarJustCompilevue_type_template_id_ccb074f0_staticRenderFns,
   false,
   null,
   null,
@@ -12263,20 +12145,6 @@ module.exports = false;
 
 module.exports = function (done, value) {
   return { value: value, done: !!done };
-};
-
-
-/***/ }),
-
-/***/ "ffb1":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("b9e6");
-var get = __webpack_require__("e3c3");
-module.exports = __webpack_require__("7fe5").getIterator = function (it) {
-  var iterFn = get(it);
-  if (typeof iterFn != 'function') throw TypeError(it + ' is not iterable!');
-  return anObject(iterFn.call(it));
 };
 
 

@@ -65,6 +65,7 @@ const setConfig = (context) => {
 
 const compileFiles = function(sources, boardCppOptions, boardcflags,
     plugins_includes_switch) {
+  console.log(`arduino-esp32 compiler.compileFiles`);
   fs.copyFileSync(`${platformDir}/main.cpp`, `${G.app_dir}/main.cpp`);
   sources.push(`${G.app_dir}/main.cpp`);
   return new Promise((resolve, reject) => {
@@ -74,6 +75,7 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
 
     //G.cb("callling compileFiles.");
     let hasError = 0;
+    console.log(`arduino-esp32/compiler.js`);
     sources.forEach(async (file, idx, arr) => {
       let filename = getName(file);
       let fn_obj = `${G.app_dir}/${filename}.o`;
@@ -82,17 +84,18 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
         const {stdout, stderr} = await execPromise(ospath(cmd),
                                                    {cwd: G.process_dir});
         if (!stderr) {
-          log.i(`compiling... ${file} ok.`);
+          console.log(`compiling... ${file} ok.`);
           G.cb(`compiling... ${path.basename(file)} ok.`);
           // console.log(`${stdout}`);
         } else {
-          log.i(`compiling... ${file} ok. (with warnings)`);
+          console.log(`compiling... ${file} ok. (with warnings)`);
           G.cb({
                  file: path.basename(file),
                  error: null,
                });
         }
       } catch (e) {
+        console.error(`catch somtething`, e.error);
         hasError = true;
         let _e = {
           file: file,

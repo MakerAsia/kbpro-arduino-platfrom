@@ -132,11 +132,12 @@
           G.editor.blockCode = xml;
           //----------------------------------------------------//
           var rawCode = (G.editor.mode >= 3) ? G.editor.sourceCode : G.editor.rawCode;
-          var isSourceCode = (G.editor.mode >= 3) ? true : false;
+          var isSourceCode = (G.editor.mode >= 3);
           var config = {
             board_mac_addr: mac,
             isSourceCode: isSourceCode,
           };
+          console.log(`calling boardCompiler.. from ActionbarJustCompile.`);
           return boardCompiler.compile(rawCode, boardName, config, (status) => {
             this.updateCompileStep(2);
             if (!this.failed) {
@@ -149,32 +150,27 @@
           console.log("---> step 3 <---");
         }).catch(err => {
           console.log("------ process error ------");
-          let file, line_error;
-          let fn_error, f;
-          console.error("nat error", err);
+          let errors = [];
           if (err.error) {
-            ([file, line_error] = err.error.stderr.split("error:"));
-            this.stepResult["2"].msg = line_error;
-            this.stepResult["2"].msg = line_error;
-            [f, fn_error] = file.split("user_app.cpp:");
-            console.error("line_file", file);
-            console.error("line_error", line_error);
-            this.failed = true;
+            errors = err.error.stderr.split("\n");
+            errors = errors.filter(v => v.indexOf("user_app.cpp") > -1).map(v => v.split("user_app.cpp:")[1]);
+          } else {
+            console.error(`no err.error`, err);
           }
 
-          console.warn(`fn_error=`, fn_error);
-          console.warn(`file=`, file);
-
-          if (this.compileStep == 1) {
-            this.stepResult["1"].msg = "Cannot find KidBright : " + err;
-            this.stepResult["1"].result = false;
-          } else if (this.compileStep == 2) {
-            this.stepResult["2"].msg = `${fn_error && fn_error.split(":")[0]} ${line_error}`;
-            this.stepResult["2"].result = false;
-          } else if (this.compileStep == 3) {
-            this.stepResult["3"].msg = "Cannot upload program : " + err;
-            this.stepResult["3"].result = false;
-          }
+          setTimeout(() => {
+            console.error(`errors:`, errors);
+            if (this.compileStep == 1) {
+              this.stepResult["1"].msg = "";
+              this.stepResult["1"].result = false;
+            } else if (this.compileStep == 2) {
+              this.stepResult["2"].msg = `${errors.join("\n")}`;
+              this.stepResult["2"].result = false;
+            } else if (this.compileStep == 3) {
+              this.stepResult["3"].msg = "Cannot upload program : " + err;
+              this.stepResult["3"].result = false;
+            }
+          }, 500);
         });
       },
     },
