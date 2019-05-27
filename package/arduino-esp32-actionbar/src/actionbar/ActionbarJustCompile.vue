@@ -17,7 +17,7 @@
                     <v-container>
                         <v-layout align-center column>
                             <v-flex xs12>
-                                <v-progress-circular v-if="compileStep <= 2"
+                                <v-progress-circular v-if="compileStep <= 2 && !failed"
                                                      :size="80"
                                                      :width="8"
                                                      color="primary"
@@ -32,7 +32,6 @@
                         </v-layout>
                     </v-container>
                     <v-flex xs12>
-                        compileStep={{compileStep}}
                         <v-stepper v-model="compileStep" vertical class="elevation-0 pb-0">
                             <v-stepper-step step="1" :complete="compileStep > 1"
                                             :rules="[()=>{ return stepResult['1'].result }]">
@@ -57,10 +56,10 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat @click="run"
-                           :disabled="compileStep < 2 && failed === false">Recompile
+                           :disabled="compileStep <= 2 && failed === false">Recompile
                     </v-btn>
                     <v-btn color="blue darken-1" flat @click="compileDialog = false"
-                           :disabled="compileStep < 2 && failed === false">Close
+                           :disabled="compileStep <= 2 && failed === false">Close
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -110,7 +109,6 @@
     methods: {
       updateCompileStep(step) {
         this.compileStep = step;
-        //this.$forceUpdate();
       },
       run() { //find port and mac
         this.updateCompileStep(1);
@@ -119,7 +117,7 @@
         this.stepResult["3"].result = true;
         this.failed = false;
         console.log("---> step 1 <---");
-        this.stepResult["1"].msg = `Just Compiling..`;
+        this.stepResult["1"].msg = `Compiling..`;
         const p = new Promise((resolve, reject) => {
           resolve({mac: "ff:ff:ff:ff:ff:ff"});
         });
@@ -140,7 +138,7 @@
             board_mac_addr: mac,
             isSourceCode: isSourceCode,
           };
-          console.log(`calling boardCompiler.. from ActionbarJustCompile.`);
+          //console.log(`calling boardCompiler.. from ActionbarJustCompile.`);
           return boardCompiler.compile(rawCode, boardName, config, (status) => {
             this.updateCompileStep(2);
             if (!this.failed) {
@@ -168,7 +166,7 @@
           }).catch(errors => {
             console.log("errors", errors);
           });
-
+          this.failed = true;
         });
       },
     },
