@@ -32,6 +32,7 @@
                         </v-layout>
                     </v-container>
                     <v-flex xs12>
+                        compileStep={{compileStep}}
                         <v-stepper v-model="compileStep" vertical class="elevation-0 pb-0">
                             <v-stepper-step step="1" :complete="compileStep > 1"
                                             :rules="[()=>{ return stepResult['1'].result }]">
@@ -42,7 +43,7 @@
                                 {{stepResult["1"].msg}}
                             </v-stepper-content>
 
-                            <v-stepper-step step="2" :complete="compileStep > 2"
+                            <v-stepper-step step="2" :complete="compileStep >= 2"
                                             :rules="[()=>{ return stepResult['2'].result }]">
                                 Compile the code
                                 <small v-if="compileStep > 2">{{stepResult["2"].msg}}</small>
@@ -70,7 +71,6 @@
   var path = `${engine.util.boardDir}/${G.board.board}/compiler.js`;
   var boardCompiler = engine.util.requireFunc(path);
 
-  var comport = "";
   var mac = "";
   var boardName = "";
 
@@ -105,19 +105,28 @@
 
     },
     methods: {
+      updateCompileStep(step) {
+        this.compileStep = step;
+        //this.$forceUpdate();
+      },
       run() { //find port and mac
+        console.log(`run called.`);
+        this.updateCompileStep(1);
+        this.stepResult["1"].result = true;
+        this.stepResult["2"].result = true;
+        this.stepResult["3"].result = true;
+        this.failed = false;
         console.log("---> step 1 <---");
-        this.step = 1;
         this.stepResult["1"].msg = `Just Compiling..`;
-        const p = new Promise((resolve, rejecf) => {
+        let that = this;
+        const p = new Promise((resolve, reject) => {
           resolve({mac: "ff:ff:ff:ff:ff:ff"});
         });
         p.then(boardMac => {
-          this.stepResult["1"].msg += ` MAC ${boardMac.mac}`;
+          that.stepResult["1"].msg += ` xMAC ${boardMac.mac}`;
           mac = boardMac.mac;
           boardName = mac.replace(/:/g, "-");
-          console.log(`[STEP 1] got it boardName = ${boardName} mac = ${mac}`);
-          this.compileStep = 2;
+          this.updateCompileStep(2);
           console.log("---> step 2 <---");
           this.stepResult["2"].msg = "Compile board ... ";
           //------ just update it prevent unupdated data -------//
@@ -131,13 +140,13 @@
             board_mac_addr: mac,
             isSourceCode: isSourceCode,
           };
-          let compileCb = (status) => {
-            console.log(`compileCb called.`);
+          return boardCompiler.compile(rawCode, boardName, config, (status) => {
+            this.updateCompileStep(2);
+            console.log(`CompileCB.. status =${status}`, this);
             this.stepResult["2"].msg = status;
-          };
-          return boardCompiler.compile(rawCode, boardName, config, compileCb);
+          });
         }).then(() => {
-          this.compileStep = 3;
+          this.updateCompileStep(3);
           this.stepResult["2"].msg = "Compile done!";
           console.log("---> step 3 <---");
         }).catch(err => {
@@ -160,11 +169,6 @@
     watch: {
       "compileDialog": function(val) {
         if (val) {//on opening
-          this.compileStep = 1;
-          this.failed = false;
-          this.stepResult["1"].result = true;
-          this.stepResult["2"].result = true;
-          this.stepResult["3"].result = true;
           this.run();
         }
       },
