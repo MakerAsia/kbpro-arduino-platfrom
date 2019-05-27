@@ -169,18 +169,22 @@
           this.compileStep = 4;
         }).catch(err => {
           console.log("------ process error ------");
-          console.log(err);
           this.failed = true;
-          if (this.compileStep == 1) {
-            this.stepResult["1"].msg = "Cannot find KidBright : " + err;
-            this.stepResult["1"].result = false;
-          } else if (this.compileStep == 2) {
-            this.stepResult["2"].msg = "Compile error : " + err;
-            this.stepResult["2"].result = false;
-          } else if (this.compileStep == 3) {
-            this.stepResult["3"].msg = "Cannot upload program : " + err;
-            this.stepResult["3"].result = false;
-          }
+          engine.util.compiler.parseError(err).then(errors => {
+            console.error(`errors:`, errors);
+            if (this.compileStep == 1) {
+              this.stepResult["1"].msg = "Cannot find KidBright : " + err;
+              this.stepResult["1"].result = false;
+            } else if (this.compileStep == 2) {
+              this.stepResult["2"].msg = `${errors.join("\n")}`;
+              this.stepResult["2"].result = false;
+            } else if (this.compileStep == 3) {
+              this.stepResult["3"].msg = "Cannot upload program : " + err;
+              this.stepResult["3"].result = false;
+            }
+          }).catch(e => {
+            console.error(e);
+          });
         });
       },
     },
