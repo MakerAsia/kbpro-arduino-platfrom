@@ -56,6 +56,9 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat @click="run"
+                           :disabled="compileStep < 2 && failed === false">Recompile
+                    </v-btn>
                     <v-btn color="blue darken-1" flat @click="compileDialog = false"
                            :disabled="compileStep < 2 && failed === false">Close
                     </v-btn>
