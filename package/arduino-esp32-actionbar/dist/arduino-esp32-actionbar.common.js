@@ -7652,12 +7652,12 @@ installComponents_default()(component, {
   VTooltip: VTooltip,
 })
 
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=6d6710b4&
-var ActionbarJustCompilevue_type_template_id_6d6710b4_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-check")])],1),_c('span',[_vm._v("Just Compile")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile Program")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 2)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 2)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_vm._v("\n                    compileStep="+_vm._s(_vm.compileStep)+"\n                    "),_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep >= 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 2 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
-var ActionbarJustCompilevue_type_template_id_6d6710b4_staticRenderFns = []
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=31ebc330&
+var ActionbarJustCompilevue_type_template_id_31ebc330_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-check")])],1),_c('span',[_vm._v("Just Compile")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile Program")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 2)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 2)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_vm._v("\n                    compileStep="+_vm._s(_vm.compileStep)+"\n                    "),_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep >= 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 2 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
+var ActionbarJustCompilevue_type_template_id_31ebc330_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=6d6710b4&
+// CONCATENATED MODULE: ./src/actionbar/ActionbarJustCompile.vue?vue&type=template&id=31ebc330&
 
 // EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/core-js/modules/es6.regexp.split.js
 var es6_regexp_split = __webpack_require__("024e");
@@ -7834,7 +7834,6 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
       this.failed = false;
       console.log("---> step 1 <---");
       this.stepResult["1"].msg = "Just Compiling..";
-      var that = this;
       var p = new promise_default.a(function (resolve, reject) {
         resolve({
           mac: "ff:ff:ff:ff:ff:ff"
@@ -7875,6 +7874,7 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
         console.log("------ process error ------");
         var file, line_error;
         var fn_error, f;
+        console.error("nat error", err);
 
         if (err.error) {
           var _err$error$stderr$spl = err.error.stderr.split("error:");
@@ -7904,7 +7904,7 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
           _this.stepResult["1"].msg = "Cannot find KidBright : " + err;
           _this.stepResult["1"].result = false;
         } else if (_this.compileStep == 2) {
-          _this.stepResult["2"].msg = "".concat(fn_error.split(":")[0], " ").concat(line_error);
+          _this.stepResult["2"].msg = "".concat(fn_error && fn_error.split(":")[0], " ").concat(line_error);
           _this.stepResult["2"].result = false;
         } else if (_this.compileStep == 3) {
           _this.stepResult["3"].msg = "Cannot upload program : " + err;
@@ -7934,8 +7934,8 @@ var ActionbarJustCompilevue_type_script_lang_js_boardName = "";
 
 var ActionbarJustCompile_component = normalizeComponent(
   actionbar_ActionbarJustCompilevue_type_script_lang_js_,
-  ActionbarJustCompilevue_type_template_id_6d6710b4_render,
-  ActionbarJustCompilevue_type_template_id_6d6710b4_staticRenderFns,
+  ActionbarJustCompilevue_type_template_id_31ebc330_render,
+  ActionbarJustCompilevue_type_template_id_31ebc330_staticRenderFns,
   false,
   null,
   null,

@@ -117,7 +117,6 @@
         this.failed = false;
         console.log("---> step 1 <---");
         this.stepResult["1"].msg = `Just Compiling..`;
-        let that = this;
         const p = new Promise((resolve, reject) => {
           resolve({mac: "ff:ff:ff:ff:ff:ff"});
         });
@@ -152,6 +151,7 @@
           console.log("------ process error ------");
           let file, line_error;
           let fn_error, f;
+          console.error("nat error", err);
           if (err.error) {
             ([file, line_error] = err.error.stderr.split("error:"));
             this.stepResult["2"].msg = line_error;
@@ -161,13 +161,15 @@
             console.error("line_error", line_error);
             this.failed = true;
           }
+
           console.warn(`fn_error=`, fn_error);
           console.warn(`file=`, file);
+
           if (this.compileStep == 1) {
             this.stepResult["1"].msg = "Cannot find KidBright : " + err;
             this.stepResult["1"].result = false;
           } else if (this.compileStep == 2) {
-            this.stepResult["2"].msg = `${fn_error.split(":")[0]} ${line_error}`;
+            this.stepResult["2"].msg = `${fn_error && fn_error.split(":")[0]} ${line_error}`;
             this.stepResult["2"].result = false;
           } else if (this.compileStep == 3) {
             this.stepResult["3"].msg = "Cannot upload program : " + err;

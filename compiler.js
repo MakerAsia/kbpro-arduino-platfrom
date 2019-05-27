@@ -73,24 +73,20 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
     let inc_switch = plugins_includes_switch.map(obj => `-I"${obj}"`).join(" ");
 
     //G.cb("callling compileFiles.");
-
     let hasError = 0;
     sources.forEach(async (file, idx, arr) => {
       let filename = getName(file);
       let fn_obj = `${G.app_dir}/${filename}.o`;
-
       let cmd = `"${G.COMPILER_CPP}" ${cppOptions} ${cflags} ${inc_switch} -c "${file}" -o "${fn_obj}"`;
       try {
         const {stdout, stderr} = await execPromise(ospath(cmd),
                                                    {cwd: G.process_dir});
         if (!stderr) {
-          console.log(`compiling... ${path.basename(file)} ok.`);
+          log.i(`compiling... ${file} ok.`);
           G.cb(`compiling... ${path.basename(file)} ok.`);
           // console.log(`${stdout}`);
         } else {
-          //reject(stderr);
-          console.log(
-              `compiling... ${path.basename(file)} ok. (with warnings)`);
+          log.i(`compiling... ${file} ok. (with warnings)`);
           G.cb({
                  file: path.basename(file),
                  error: null,
@@ -102,8 +98,8 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
           file: file,
           error: e,
         };
-        console.error("e>", _e);
-        G.cb(_e);
+        //console.error("e>", _e);
+        //G.cb(_e);
         reject(_e);
       }
       if (idx === arr.length - 1) {
