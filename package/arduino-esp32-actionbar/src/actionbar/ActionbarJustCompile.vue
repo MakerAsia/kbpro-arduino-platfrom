@@ -141,7 +141,6 @@
           };
           return boardCompiler.compile(rawCode, boardName, config, (status) => {
             this.updateCompileStep(2);
-            console.log(`CompileCB.. status =${status}`, this);
             this.stepResult["2"].msg = status;
           });
         }).then(() => {
