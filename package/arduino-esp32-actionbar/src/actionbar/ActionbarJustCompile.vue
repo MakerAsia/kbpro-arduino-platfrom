@@ -110,7 +110,6 @@
         //this.$forceUpdate();
       },
       run() { //find port and mac
-        console.log(`run called.`);
         this.updateCompileStep(1);
         this.stepResult["1"].result = true;
         this.stepResult["2"].result = true;
@@ -123,7 +122,7 @@
           resolve({mac: "ff:ff:ff:ff:ff:ff"});
         });
         p.then(boardMac => {
-          that.stepResult["1"].msg += ` xMAC ${boardMac.mac}`;
+          //that.stepResult["1"].msg += ` MAC ${boardMac.mac}`;
           mac = boardMac.mac;
           boardName = mac.replace(/:/g, "-");
           this.updateCompileStep(2);
