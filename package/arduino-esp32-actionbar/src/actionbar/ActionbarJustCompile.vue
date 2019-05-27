@@ -153,15 +153,7 @@
           console.log("---> step 3 <---");
         }).catch(err => {
           console.log("------ process error ------");
-          let errors = [];
-          if (err.error) {
-            errors = err.error.stderr.split("\n");
-            errors = errors.filter(v => v.indexOf("user_app.cpp") > -1).map(v => v.split("user_app.cpp:")[1]);
-          } else {
-            console.error(`no err.error`, err);
-          }
-
-          setTimeout(() => {
+          engine.util.compiler.parseError(err).then(errors => {
             console.error(`errors:`, errors);
             if (this.compileStep == 1) {
               this.stepResult["1"].msg = "";
@@ -173,7 +165,10 @@
               this.stepResult["3"].msg = "Cannot upload program : " + err;
               this.stepResult["3"].result = false;
             }
-          }, 500);
+          }).catch(errors => {
+            console.log("errors", errors);
+          });
+
         });
       },
     },

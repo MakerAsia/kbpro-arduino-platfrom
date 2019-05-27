@@ -101,7 +101,6 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
           file: file,
           error: e,
         };
-        //console.error("e>", _e);
         //G.cb(_e);
         reject(_e);
       }
