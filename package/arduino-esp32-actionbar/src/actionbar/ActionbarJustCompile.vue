@@ -111,6 +111,7 @@
         this.compileStep = step;
       },
       run() { //find port and mac
+        G.$emit("compile-begin"); //<<<<< fire event
         this.updateCompileStep(1);
         this.stepResult["1"].result = true;
         this.stepResult["2"].result = true;
@@ -149,10 +150,12 @@
           this.updateCompileStep(3);
           this.stepResult["2"].msg = "Compile done!";
           console.log("---> step 3 <---");
+          G.$emit("compile-success"); //<<<<< fire event
         }).catch(err => {
           console.log("------ process error ------");
           engine.util.compiler.parseError(err).then(errors => {
             console.error(`errors:`, errors);
+            G.$emit("compile-error",errors); //<<<<< fire event
             this.failed = true;
             if (this.compileStep == 1) {
               this.stepResult["1"].msg = "";

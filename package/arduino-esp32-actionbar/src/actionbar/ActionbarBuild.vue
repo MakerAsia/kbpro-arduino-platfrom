@@ -120,6 +120,7 @@
     },
     methods: {
       run() { //find port and mac
+        G.$emit("compile-begin"); //<<<<< fire event
         console.log("---> step 1 <---");
         comport = G.board.package["arduino-esp32-actionbar"].comport;
         baudrate = G.board.package["arduino-esp32-actionbar"].baudrate;
@@ -164,20 +165,24 @@
           };
           return boardCompiler.compile(rawCode, boardName, config, compileCb);
         }).then(() => {
+          G.$emit("compile-success"); //<<<<< fire event
           this.stepResult["2"].msg = "Compile done!";
           this.compileStep = 3;
           this.stepResult["3"].msg = "Uploading ... ";
           console.log("---> step 3 <---");
+          G.$emit("upload-begin"); //<<<<< fire event
           return boardCompiler.flash(comport);
         }).then(() => {
           this.stepResult["3"].msg = "Upload success";
           this.compileStep = 4;
+          G.$emit("upload-success"); //<<<<< fire event
         }).catch(err => {
           console.log("------ process error ------", err);
           this.failed = true;
           engine.util.compiler.parseError(err).then(errors => {
             this.failed = true;
             console.error(`errors:`, errors);
+            G.$emit("compile-error",errors); //<<<<< fire event
             if (this.compileStep == 1) {
               this.stepResult["1"].msg = "Cannot find KidBright : " + err;
               this.stepResult["1"].result = false;
