@@ -153,6 +153,7 @@
           console.log("------ process error ------");
           engine.util.compiler.parseError(err).then(errors => {
             console.error(`errors:`, errors);
+            this.failed = true;
             if (this.compileStep == 1) {
               this.stepResult["1"].msg = "";
               this.stepResult["1"].result = false;
@@ -164,7 +165,8 @@
               this.stepResult["3"].result = false;
             }
           }).catch(errors => {
-            console.log("errors", errors);
+            console.log("errors", errors, err);
+            this.failed = true;
           });
           this.failed = true;
         });
