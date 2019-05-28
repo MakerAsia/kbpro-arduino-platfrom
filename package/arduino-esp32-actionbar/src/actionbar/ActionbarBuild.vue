@@ -84,6 +84,7 @@
   var boardCompiler = engine.util.requireFunc(path);
 
   var comport = "";
+  var baudrate = 115200;
   var mac = "";
   var boardName = "";
 
@@ -121,6 +122,7 @@
       run() { //find port and mac
         console.log("---> step 1 <---");
         comport = G.board.package["arduino-esp32-actionbar"].comport;
+        baudrate = G.board.package["arduino-esp32-actionbar"].baudrate;
         this.stepResult["1"].msg = `Finding board using ${comport}`;
         if (!comport) {
           console.log("------ process error ------");
@@ -129,7 +131,10 @@
           this.failed = true;
           return;
         }
-        boardCompiler.readMac(comport).then(boardMac => {
+        boardCompiler.readMac({
+                                portName: comport,
+                                baudrate,
+                              }).then(boardMac => {
           this.stepResult["1"].msg += ` MAC ${boardMac.mac}`;
           mac = boardMac.mac;
           boardName = mac.replace(/:/g, "-");
@@ -168,9 +173,10 @@
           this.stepResult["3"].msg = "Upload success";
           this.compileStep = 4;
         }).catch(err => {
-          console.log("------ process error ------");
+          console.log("------ process error ------", err);
           this.failed = true;
           engine.util.compiler.parseError(err).then(errors => {
+            this.failed = true;
             console.error(`errors:`, errors);
             if (this.compileStep == 1) {
               this.stepResult["1"].msg = "Cannot find KidBright : " + err;
@@ -183,7 +189,9 @@
               this.stepResult["3"].result = false;
             }
           }).catch(e => {
-            console.error(e);
+            this.stepResult["1"].msg = `${err}`;
+            this.stepResult["1"].result = false;
+            this.failed = true;
           });
         });
       },

@@ -16,7 +16,7 @@ module.exports = {
     wifi_ssid: "",
     wifi_password: "",
     comport: "",
-    baudrate: 921600,
+    baudrate: 115200,
     cflag: "",
     loaded: false, //this will automatic set to 'true' if this pacakage loaded to IDE
   },

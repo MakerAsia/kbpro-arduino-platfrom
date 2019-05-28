@@ -102,7 +102,7 @@
         this.$global.board.package["arduino-esp32-actionbar"].comport = port;
       },
       baudrate: function(rate) {
-        console.log(`current Port changed. to ${port}`);
+        console.log(`current rate changed. to ${rate}`);
         this.$global.board.package["arduino-esp32-actionbar"].baudrate = rate;
       },
     },

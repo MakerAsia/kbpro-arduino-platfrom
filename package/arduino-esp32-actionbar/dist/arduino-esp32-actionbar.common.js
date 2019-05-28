@@ -2988,12 +2988,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarBuild.vue?vue&type=template&id=2392643e&
-var ActionbarBuildvue_type_template_id_2392643e_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-play")])],1),_c('span',[_vm._v("Compile & Run")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile & Run")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 3)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 3)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep > 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"3","complete":_vm.compileStep > 3,"rules":[function (){ return _vm.stepResult['3'].result }]}},[_vm._v("\n                            Upload program and Run\n                            "),(_vm.compileStep > 3)?_c('small',[_vm._v(_vm._s(_vm.stepResult["3"].msg))]):_vm._e()]),(_vm.compileStep >= 3)?_c('v-stepper-content',{attrs:{"step":"3"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["3"].msg)+"\n                            "),_c('v-progress-linear',{attrs:{"height":"2","active":_vm.compileStep < 4,"indeterminate":true}})],1):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 4 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarBuild.vue?vue&type=template&id=55900bb4&
+var ActionbarBuildvue_type_template_id_55900bb4_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.compileDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-play")])],1),_c('span',[_vm._v("Compile & Run")])],1),_c('v-dialog',{attrs:{"persistent":"","max-width":"450px"},model:{value:(_vm.compileDialog),callback:function ($$v) {_vm.compileDialog=$$v},expression:"compileDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Compile & Run")])]),_c('v-card-text',[_c('v-container',[_c('v-layout',{attrs:{"align-center":"","column":""}},[_c('v-flex',{attrs:{"xs12":""}},[(_vm.compileStep <= 3)?_c('v-progress-circular',{attrs:{"size":80,"width":8,"color":"primary","indeterminate":""}}):_vm._e(),_c('v-fade-transition',{attrs:{"hide-on-leave":true}},[(_vm.compileStep > 3)?_c('v-icon',{attrs:{"color":"green","size":"110"}},[_vm._v("\n                                    check_circle_outline\n                                ")]):_vm._e()],1)],1)],1)],1),_c('v-flex',{attrs:{"xs12":""}},[_c('v-stepper',{staticClass:"elevation-0 pb-0",attrs:{"vertical":""},model:{value:(_vm.compileStep),callback:function ($$v) {_vm.compileStep=$$v},expression:"compileStep"}},[_c('v-stepper-step',{attrs:{"step":"1","complete":_vm.compileStep > 1,"rules":[function (){ return _vm.stepResult['1'].result }]}},[_vm._v("\n                            Finding board\n                            "),(_vm.compileStep > 1)?_c('small',[_vm._v(_vm._s(_vm.stepResult["1"].msg))]):_vm._e()]),(_vm.compileStep >= 1)?_c('v-stepper-content',{attrs:{"step":"1"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["1"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"2","complete":_vm.compileStep > 2,"rules":[function (){ return _vm.stepResult['2'].result }]}},[_vm._v("\n                            Compile the code\n                            "),(_vm.compileStep > 2)?_c('small',[_vm._v(_vm._s(_vm.stepResult["2"].msg))]):_vm._e()]),(_vm.compileStep >= 2)?_c('v-stepper-content',{attrs:{"step":"2"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["2"].msg)+"\n                        ")]):_vm._e(),_c('v-stepper-step',{attrs:{"step":"3","complete":_vm.compileStep > 3,"rules":[function (){ return _vm.stepResult['3'].result }]}},[_vm._v("\n                            Upload program and Run\n                            "),(_vm.compileStep > 3)?_c('small',[_vm._v(_vm._s(_vm.stepResult["3"].msg))]):_vm._e()]),(_vm.compileStep >= 3)?_c('v-stepper-content',{attrs:{"step":"3"}},[_vm._v("\n                            "+_vm._s(_vm.stepResult["3"].msg)+"\n                            "),_c('v-progress-linear',{attrs:{"height":"2","active":_vm.compileStep < 4,"indeterminate":true}})],1):_vm._e()],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":"","disabled":_vm.compileStep < 4 && _vm.failed === false},on:{"click":function($event){_vm.compileDialog = false}}},[_vm._v("Close\n                ")])],1)],1)],1)],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/actionbar/ActionbarBuild.vue?vue&type=template&id=2392643e&
+// CONCATENATED MODULE: ./src/actionbar/ActionbarBuild.vue?vue&type=template&id=55900bb4&
 
 // EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/core-js/modules/es6.regexp.replace.js
 var es6_regexp_replace = __webpack_require__("7959");
@@ -3084,6 +3084,7 @@ var G = Vue.prototype.$global;
 var ActionbarBuildvue_type_script_lang_js_path = "".concat(engine.util.boardDir, "/").concat(G.board.board, "/compiler.js");
 var boardCompiler = engine.util.requireFunc(ActionbarBuildvue_type_script_lang_js_path);
 var comport = "";
+var baudrate = 115200;
 var mac = "";
 var boardName = "";
 /* harmony default export */ var ActionbarBuildvue_type_script_lang_js_ = ({
@@ -3117,6 +3118,7 @@ var boardName = "";
       //find port and mac
       console.log("---> step 1 <---");
       comport = G.board.package["arduino-esp32-actionbar"].comport;
+      baudrate = G.board.package["arduino-esp32-actionbar"].baudrate;
       this.stepResult["1"].msg = "Finding board using ".concat(comport);
 
       if (!comport) {
@@ -3127,7 +3129,10 @@ var boardName = "";
         return;
       }
 
-      boardCompiler.readMac(comport).then(function (boardMac) {
+      boardCompiler.readMac({
+        portName: comport,
+        baudrate: baudrate
+      }).then(function (boardMac) {
         _this.stepResult["1"].msg += " MAC ".concat(boardMac.mac);
         mac = boardMac.mac;
         boardName = mac.replace(/:/g, "-");
@@ -3167,10 +3172,11 @@ var boardName = "";
         _this.stepResult["3"].msg = "Upload success";
         _this.compileStep = 4;
       }).catch(function (err) {
-        console.log("------ process error ------");
+        console.log("------ process error ------", err);
+        _this.failed = true;
         engine.util.compiler.parseError(err).then(function (errors) {
-          console.error("errors:", errors);
           _this.failed = true;
+          console.error("errors:", errors);
 
           if (_this.compileStep == 1) {
             _this.stepResult["1"].msg = "Cannot find KidBright : " + err;
@@ -3183,7 +3189,9 @@ var boardName = "";
             _this.stepResult["3"].result = false;
           }
         }).catch(function (e) {
-          console.error(e);
+          _this.stepResult["1"].msg = "".concat(err);
+          _this.stepResult["1"].result = false;
+          _this.failed = true;
         });
       });
     }
@@ -7375,7 +7383,7 @@ function VTooltip_defineProperty(obj, key, value) { if (key in obj) { Object.def
 
 var component = normalizeComponent(
   actionbar_ActionbarBuildvue_type_script_lang_js_,
-  ActionbarBuildvue_type_template_id_2392643e_render,
+  ActionbarBuildvue_type_template_id_55900bb4_render,
   staticRenderFns,
   false,
   null,
@@ -7685,12 +7693,12 @@ installComponents_default()(ActionbarJustCompile_component, {
   VTooltip: VTooltip,
 })
 
-// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarSetting.vue?vue&type=template&id=7b25e13c&
-var ActionbarSettingvue_type_template_id_7b25e13c_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.settingDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-cogs")])],1),_c('span',[_vm._v("Setup board")])],1),_c('v-dialog',{attrs:{"max-width":"500px"},model:{value:(_vm.settingDialog),callback:function ($$v) {_vm.settingDialog=$$v},expression:"settingDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Setup board")])]),_c('v-divider'),_c('v-card-text',[_c('v-container',{attrs:{"grid-list-md":""}},[_c('v-layout',{attrs:{"wrap":""}},[_c('v-flex',{attrs:{"xs12":""}},[_c('v-subheader',{staticClass:"pa-0 mb-2"},[_vm._v("Board setting")]),_c('div',{staticClass:"d-flex"},[_c('v-combobox',{staticClass:"mr-3",attrs:{"items":_vm.comports,"label":"Select COM port"},model:{value:(_vm.currentPort),callback:function ($$v) {_vm.currentPort=$$v},expression:"currentPort"}}),_c('v-combobox',{attrs:{"items":_vm.baudrates,"label":"Serial upload baudrate"},model:{value:(_vm.baudrate),callback:function ($$v) {_vm.baudrate=$$v},expression:"baudrate"}})],1)],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":""},nativeOn:{"click":function($event){_vm.settingDialog = false}}},[_vm._v("Close")])],1)],1)],1)],1)}
-var ActionbarSettingvue_type_template_id_7b25e13c_staticRenderFns = []
+// CONCATENATED MODULE: /Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dcf8a58c-vue-loader-template"}!/Users/nat/KBProIDE/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/nat/KBProIDE/node_modules/vuetify-loader/lib/loader.js!/Users/nat/KBProIDE/node_modules/cache-loader/dist/cjs.js??ref--0-0!/Users/nat/KBProIDE/node_modules/vue-loader/lib??vue-loader-options!./src/actionbar/ActionbarSetting.vue?vue&type=template&id=278535bc&
+var ActionbarSettingvue_type_template_id_278535bc_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-tooltip',{attrs:{"bottom":""}},[_c('v-btn',{attrs:{"slot":"activator","color":"primary darken-2","icon":""},on:{"click":function($event){_vm.settingDialog = true}},slot:"activator"},[_c('v-icon',{attrs:{"dark":""}},[_vm._v("fa-cogs")])],1),_c('span',[_vm._v("Setup board")])],1),_c('v-dialog',{attrs:{"max-width":"500px"},model:{value:(_vm.settingDialog),callback:function ($$v) {_vm.settingDialog=$$v},expression:"settingDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"headline"},[_vm._v("Setup board")])]),_c('v-divider'),_c('v-card-text',[_c('v-container',{attrs:{"grid-list-md":""}},[_c('v-layout',{attrs:{"wrap":""}},[_c('v-flex',{attrs:{"xs12":""}},[_c('v-subheader',{staticClass:"pa-0 mb-2"},[_vm._v("Board setting")]),_c('div',{staticClass:"d-flex"},[_c('v-combobox',{staticClass:"mr-3",attrs:{"items":_vm.comports,"label":"Select COM port"},model:{value:(_vm.currentPort),callback:function ($$v) {_vm.currentPort=$$v},expression:"currentPort"}}),_c('v-combobox',{attrs:{"items":_vm.baudrates,"label":"Serial upload baudrate"},model:{value:(_vm.baudrate),callback:function ($$v) {_vm.baudrate=$$v},expression:"baudrate"}})],1)],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","flat":""},nativeOn:{"click":function($event){_vm.settingDialog = false}}},[_vm._v("Close")])],1)],1)],1)],1)}
+var ActionbarSettingvue_type_template_id_278535bc_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/actionbar/ActionbarSetting.vue?vue&type=template&id=7b25e13c&
+// CONCATENATED MODULE: ./src/actionbar/ActionbarSetting.vue?vue&type=template&id=278535bc&
 
 // EXTERNAL MODULE: /Users/nat/KBProIDE/node_modules/core-js/modules/es7.array.includes.js
 var es7_array_includes = __webpack_require__("a084");
@@ -7806,7 +7814,7 @@ var SerialPort = ActionbarSettingvue_type_script_lang_js_engine.util.requireFunc
       this.$global.board.package["arduino-esp32-actionbar"].comport = port;
     },
     baudrate: function baudrate(rate) {
-      console.log("current Port changed. to ".concat(port));
+      console.log("current rate changed. to ".concat(rate));
       this.$global.board.package["arduino-esp32-actionbar"].baudrate = rate;
     }
   }
@@ -11863,8 +11871,8 @@ var VAutocomplete_defaultMenuProps = VAutocomplete_extends({}, defaultMenuProps,
 
 var ActionbarSetting_component = normalizeComponent(
   actionbar_ActionbarSettingvue_type_script_lang_js_,
-  ActionbarSettingvue_type_template_id_7b25e13c_render,
-  ActionbarSettingvue_type_template_id_7b25e13c_staticRenderFns,
+  ActionbarSettingvue_type_template_id_278535bc_render,
+  ActionbarSettingvue_type_template_id_278535bc_staticRenderFns,
   false,
   null,
   null,
