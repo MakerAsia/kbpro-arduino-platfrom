@@ -84,7 +84,7 @@
   var boardCompiler = engine.util.requireFunc(path);
 
   var comport = "";
-  var baudrate = 115200;
+  var baudrate = 230400;
   var mac = "";
   var boardName = "";
 
