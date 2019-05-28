@@ -94,8 +94,19 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
                  error: null,
                });
         }
+        if (idx === arr.length - 1) {
+          setTimeout(function() {
+            if (!hasError) {
+              console.info(`[arduino-esp32] resolve called.`);
+              resolve();
+            } else {
+              //console.error(`has error refuse to reject.`);
+            }
+          }, 2000);
+        }
       } catch (e) {
-        console.error(`catch somtething`, e.error);
+        console.error(`[arduino-esp32].compiler.js catch something`, e.error);
+        console.error(`[arduino-esp32].compiler.js >>> `, e);
         hasError = true;
         let _e = {
           file: file,
@@ -103,10 +114,6 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
         };
         //G.cb(_e);
         reject(_e);
-      }
-      if (idx === arr.length - 1) {
-        if (!hasError)
-          resolve();
       }
     });
   });
