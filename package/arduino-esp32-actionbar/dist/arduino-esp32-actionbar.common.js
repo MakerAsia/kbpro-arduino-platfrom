@@ -4157,6 +4157,7 @@ function rippleHide(e) {
     var element = e.currentTarget;
     if (!element) return;
     window.setTimeout(function () {
+        if (element._ripple)
         element._ripple.touched = false;
     });
     ripple.hide(element);
