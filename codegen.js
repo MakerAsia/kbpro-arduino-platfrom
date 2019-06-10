@@ -6,8 +6,6 @@ const log = require('./log');
 //---- setup dir ----//
 var engine = Vue.prototype.$engine;
 var G = Vue.prototype.$global;
-var boardDirectory = `${engine.util.boardDir}/${G.board.board}`;
-var platformDir = `${engine.util.platformDir}/${G.board.board_info.platform}`;
 
 //-------------------//
 var findString = function(regexS,rawCode,index = 1)
@@ -31,7 +29,7 @@ module.exports = {
     createCodeContext : function(rawCode,config,plugins)
     {
         var source_code = rawCode;
-        var pluginInfo = G.plugin.pluginInfo; 
+        var pluginInfo = G.plugin.pluginInfo;
         //---- custom include ----//
         let extInc = /#EXTINC(.*?)#END/gm;
         let replaceRegex = /#EXTINC.*?#END/gm;
@@ -42,7 +40,7 @@ module.exports = {
             let incFileRes = /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm.exec(incFiles[ix]);
             if(incFileRes){
                 let incFile = incFileRes[1].trim();
-                //lookup plugin 
+                //lookup plugin
                 let includedPlugin = pluginInfo.categories.filter(obj=> obj.sourceFile.includes(incFile));
                 if(includedPlugin.length > 0){
                     plugins_includes_switch.push(includedPlugin[0].directory + "/src");
@@ -55,12 +53,12 @@ module.exports = {
         //---- variable -----//
         let varRegex = /#VARIABLE(.*?)#END/gms;
         let varReplaceRegex = /#VARIABLE.*?#END/gms;
-        let variables = findString(varRegex,source_code);        
+        let variables = findString(varRegex,source_code);
         source_code = source_code.replace(varReplaceRegex,"");
-        //---- function -----//        
+        //---- function -----//
         let functionsRegex = /#FUNCTION(.*?)#END/gms;
         let functionReplaceRegex = /#FUNCTION.*?#END/gms;
-        let functions = findString(functionsRegex,source_code);        
+        let functions = findString(functionsRegex,source_code);
         source_code = source_code.replace(functionReplaceRegex,"");
         //---- find loop extension code ----//
         let loopExtRegex = /#LOOP_EXT_CODE(.*?)#END/gms;
@@ -69,7 +67,7 @@ module.exports = {
         source_code = source_code.replace(loopExtRegex1,"");
         //---- find setup code ----//
         let setupRegex = /#SETUP(.*?)#END/gms;
-        let replaceRegex1 = /#SETUP.*?#END/gms;        
+        let replaceRegex1 = /#SETUP.*?#END/gms;
         let setup_code = findString(setupRegex,source_code);
         source_code = source_code.replace(replaceRegex1,"");
         //---- find user block setup code ----//
@@ -88,9 +86,9 @@ module.exports = {
             let clasName = pline[1];
             let classConstructor = pline[2];
             let functionName = pline[3];
-            let 
+            let
         }*/
-        //----- list include cpp file------// 
+        //----- list include cpp file------//
 
         return {
             EXTINC : incFiles.join('\n'),
@@ -105,13 +103,16 @@ module.exports = {
         }
     },
 	generate : function(rawCode){
+        let platformDir = `${engine.util.platformDir}/${G.board.board_info.platform}`;
+        let boardDirectory = `${engine.util.boardDir}/${G.board.board}`;
+        let template = null;
         if(fs.existsSync(`${boardDirectory}/template.c`)){
-            var template = fs.readFileSync(`${boardDirectory}/template.c`,'utf8');
+            template = fs.readFileSync(`${boardDirectory}/template.c`,'utf8');
         }else{
-            var template = fs.readFileSync(`${platformDir}/template.c`,'utf8');
+            template = fs.readFileSync(`${platformDir}/template.c`,'utf8');
         }
-        var codeContext = this.createCodeContext(rawCode,null,null);
-        const entries = Object.entries(codeContext)
+        let codeContext = this.createCodeContext(rawCode,null,null);
+        const entries = Object.entries(codeContext);
         const result = entries.reduce( (output, entry) => {
             const [key, value] = entry;
             const regex = new RegExp( `\\$\{${key}\}`, 'g');
@@ -121,4 +122,4 @@ module.exports = {
         //let codeContext = {};
         return {sourceCode : result, codeContext : codeContext};
     }
-}
+};
