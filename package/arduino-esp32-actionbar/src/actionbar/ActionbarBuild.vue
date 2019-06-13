@@ -171,7 +171,7 @@
           this.stepResult["3"].msg = "Uploading ... ";
           console.log("---> step 3 <---");
           G.$emit("upload-begin"); //<<<<< fire event
-          return boardCompiler.flash(comport);
+          return boardCompiler.flash(comport,baudrate);
         }).then(() => {
           this.stepResult["3"].msg = "Upload success";
           this.compileStep = 4;
@@ -183,13 +183,13 @@
             this.failed = true;
             console.error(`errors:`, errors);
             G.$emit("compile-error",errors); //<<<<< fire event
-            if (this.compileStep == 1) {
+            if (this.compileStep === 1) {
               this.stepResult["1"].msg = "Cannot find KidBright : " + err;
               this.stepResult["1"].result = false;
-            } else if (this.compileStep == 2) {
+            } else if (this.compileStep === 2) {
               this.stepResult["2"].msg = `${errors.join("\n")}`;
               this.stepResult["2"].result = false;
-            } else if (this.compileStep == 3) {
+            } else if (this.compileStep === 3) {
               this.stepResult["3"].msg = "Cannot upload program : " + err;
               this.stepResult["3"].result = false;
             }
