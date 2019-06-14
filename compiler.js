@@ -75,8 +75,7 @@ const setConfig = (context) => {
   idf.setConfig(context);
 };
 
-const compileFiles = function(sources, boardCppOptions, boardcflags,
-    plugins_includes_switch) {
+const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_includes_switch) {
   console.log(`arduino-esp32 compiler.compileFiles`);
   fs.copyFileSync(`${platformDir}/main.cpp`, `${G.app_dir}/main.cpp`);
   sources.push(`${G.app_dir}/main.cpp`);
@@ -85,23 +84,19 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
     let cppOptions = G.cpp_options.join(" ") + boardCppOptions.join(" ");
     let inc_switch = plugins_includes_switch.map(obj => `-I"${obj}"`).join(" ");
 
-    //G.cb("callling compileFiles.");
-    let hasError = 0;
-    console.log(`arduino-esp32/compiler.js`);
     let finalFiles = [];
-    sources.forEach( (file, idx, arr) => {
+    console.log(`arduino-esp32/compiler.js`);
+
+    sources.forEach(async (file, idx, arr) => {
       let filename = getName(file);
       let fn_obj = `${G.app_dir}/${filename}.o`;
       let cmd = `"${G.COMPILER_CPP}" ${cppOptions} ${cflags} ${inc_switch} -c "${file}" -o "${fn_obj}"`;
       try {
         console.log("comping => " + file);
-        const {stdout, stderr} = execPromise(ospath(cmd),
-                                                   {cwd: G.process_dir});
-        console.log("command success => " + file);
+        const {stdout, stderr} = await execPromise(ospath(cmd), {cwd: G.process_dir});
         if (!stderr) {
           console.log(`compiling... ${file} ok.`);
           G.cb(`compiling... ${path.basename(file)} ok.`);
-          // console.log(`${stdout}`);
         } else {
           console.log(`compiling... ${file} ok. (with warnings)`);
           G.cb({
@@ -110,32 +105,24 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
                });
         }
         finalFiles.push(fn_obj);
-        if (idx === arr.length - 1) {
-          function waitAllFile(){
-            let allFound=true;
-            for(let cFile in finalFiles){
-              if(!fs.existsSync(finalFiles[cFile])){
-                setTimeout(waitAllFile,500);
-                allFound = false;
-                break;
-              }
-            }
-            if(allFound){
-              console.info(`[arduino-esp32] resolve called.`);
-              resolve();
-            }
+        if(finalFiles.length === sources.length){ //compiled all file
+          let allFound = true;
+          for(let inx in finalFiles){
+            if(!fs.existsSync(finalFiles[inx])){ allFound = false; }
           }
-          waitAllFile();
+          if(allFound){
+            resolve();
+          }else{
+            reject();
+          }
         }
       } catch (e) {
         console.error(`[arduino-esp32].compiler.js catch something`, e.error);
         console.error(`[arduino-esp32].compiler.js >>> `, e);
-        hasError = true;
         let _e = {
           file: file,
           error: e,
         };
-        //G.cb(_e);
         reject(_e);
       }
     });
@@ -149,7 +136,7 @@ function linkObject(ldflags, extarnal_libflags) {
   let libflags = (extarnal_libflags) ? G.ldlibflag.concat(extarnal_libflags).
   join(" ") : G.ldlibflag.join(" ");
   flags = G.ldflags.join(" ") + " " + ldflags.join(" ");
-  var cmd = `"${G.COMPILER_GCC}" ${flags} -Wl,--start-group ${libflags} -L"${G.app_dir}" -lmain -lgcov -Wl,--end-group -Wl,-EL -o "${G.ELF_FILE}"`;
+  let cmd = `"${G.COMPILER_GCC}" ${flags} -Wl,--start-group ${libflags} -L"${G.app_dir}" -lmain -lgcov -Wl,--end-group -Wl,-EL -o "${G.ELF_FILE}"`;
   return execPromise(ospath(cmd), {cwd: G.process_dir});
 }
 
