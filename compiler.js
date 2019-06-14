@@ -2,6 +2,18 @@ const util = require("util");
 const fs = require("fs");
 const path = require("path");
 const execPromise = util.promisify(require("child_process").exec);
+const exec = require('child_process').exec;
+const cmd = 'echo "hello"';
+
+function execWaitOutput(cmd,outputFile) {
+  return new Promise((resolve, reject) => {
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) return resolve(false);
+      if (stderr) return resolve(false);
+      resolve(true);
+    });
+  });
+}
 const log = require("./log");
 
 var engine = Vue.prototype.$engine;
@@ -76,13 +88,16 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
     //G.cb("callling compileFiles.");
     let hasError = 0;
     console.log(`arduino-esp32/compiler.js`);
-    sources.forEach(async (file, idx, arr) => {
+    let finalFiles = [];
+    sources.forEach( (file, idx, arr) => {
       let filename = getName(file);
       let fn_obj = `${G.app_dir}/${filename}.o`;
       let cmd = `"${G.COMPILER_CPP}" ${cppOptions} ${cflags} ${inc_switch} -c "${file}" -o "${fn_obj}"`;
       try {
-        const {stdout, stderr} = await execPromise(ospath(cmd),
+        console.log("comping => " + file);
+        const {stdout, stderr} = execPromise(ospath(cmd),
                                                    {cwd: G.process_dir});
+        console.log("command success => " + file);
         if (!stderr) {
           console.log(`compiling... ${file} ok.`);
           G.cb(`compiling... ${path.basename(file)} ok.`);
@@ -94,15 +109,23 @@ const compileFiles = function(sources, boardCppOptions, boardcflags,
                  error: null,
                });
         }
+        finalFiles.push(fn_obj);
         if (idx === arr.length - 1) {
-          setTimeout(function() {
-            if (!hasError) {
+          function waitAllFile(){
+            let allFound=true;
+            for(let cFile in finalFiles){
+              if(!fs.existsSync(finalFiles[cFile])){
+                setTimeout(waitAllFile,500);
+                allFound = false;
+                break;
+              }
+            }
+            if(allFound){
               console.info(`[arduino-esp32] resolve called.`);
               resolve();
-            } else {
-              //console.error(`has error refuse to reject.`);
             }
-          }, 2000);
+          }
+          waitAllFile();
         }
       } catch (e) {
         console.error(`[arduino-esp32].compiler.js catch something`, e.error);
