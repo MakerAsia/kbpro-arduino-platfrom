@@ -106,15 +106,7 @@ const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_inc
         }
         finalFiles.push(fn_obj);
         if(finalFiles.length === sources.length){ //compiled all file
-          let allFound = true;
-          for(let inx in finalFiles){
-            if(!fs.existsSync(finalFiles[inx])){ allFound = false; }
-          }
-          if(allFound){
-            resolve();
-          }else{
-            reject();
-          }
+          resolve();
         }
       } catch (e) {
         console.error(`[arduino-esp32].compiler.js catch something`, e.error);
