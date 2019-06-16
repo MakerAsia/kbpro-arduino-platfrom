@@ -1,7 +1,7 @@
 {
   "toolchain_dir": "./tools/xtensa-esp32-elf",
   "cflags": [
-    "-DESP_PLATFORM -DMBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\" -DHAVE_CONFIG_H",
+    "-DESP_PLATFORM -DMBEDTLS_CONFIG_FILE='\"mbedtls/esp_config.h\"' -DHAVE_CONFIG_H",
     "-I\"{platform}/sdk/include/config\"",
     "-I\"{platform}/sdk/include/app_trace\"",
     "-I\"{platform}/sdk/include/app_update\"",
