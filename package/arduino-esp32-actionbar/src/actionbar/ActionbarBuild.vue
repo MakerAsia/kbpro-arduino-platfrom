@@ -133,9 +133,9 @@
           return;
         }
         boardCompiler.readMac({
-                                portName: comport,
-                                baudrate,
-                              }).then(boardMac => {
+          portName: comport,
+          baudrate,
+        }).then(boardMac => {
           this.stepResult["1"].msg += ` MAC ${boardMac.mac}`;
           mac = boardMac.mac;
           boardName = mac.replace(/:/g, "-");
@@ -171,7 +171,7 @@
           this.stepResult["3"].msg = "Uploading ... ";
           console.log("---> step 3 <---");
           G.$emit("upload-begin"); //<<<<< fire event
-          return boardCompiler.flash(comport,baudrate);
+          return boardCompiler.flash(comport, baudrate);
         }).then(() => {
           this.stepResult["3"].msg = "Upload success";
           this.compileStep = 4;
@@ -182,7 +182,7 @@
           engine.util.compiler.parseError(err).then(errors => {
             this.failed = true;
             console.error(`errors:`, errors);
-            G.$emit("compile-error",errors); //<<<<< fire event
+            G.$emit("compile-error", errors); //<<<<< fire event
             if (this.compileStep === 1) {
               this.stepResult["1"].msg = "Cannot find KidBright : " + err;
               this.stepResult["1"].result = false;
