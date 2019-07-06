@@ -1,4 +1,5 @@
-//import {shallowMount} from "@vue/test-utils.j";
+//import {shallowMount} from "@vue/test-utils";
+
 let {shallowMount} = require("@vue/test-utils");
 let App = require("@/App");
 
