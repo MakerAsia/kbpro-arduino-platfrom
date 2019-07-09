@@ -2,21 +2,9 @@ const util = require("util");
 const fs = require("fs");
 const path = require("path");
 const execPromise = util.promisify(require("child_process").exec);
-const exec = require('child_process').exec;
-const cmd = 'echo "hello"';
+const engine = Vue.prototype.$engine;
+const {default: PQueue} = engine.util.requireFunc('p-queue');
 
-function execWaitOutput(cmd,outputFile) {
-  return new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout, stderr) => {
-      if (error) return resolve(false);
-      if (stderr) return resolve(false);
-      resolve(true);
-    });
-  });
-}
-const log = require("./log");
-
-var engine = Vue.prototype.$engine;
 //---- setup dir and config ----//
 var platformName = "arduino-esp32";
 var motherPlatform = "esp-idf";
@@ -75,22 +63,20 @@ const setConfig = (context) => {
   idf.setConfig(context);
 };
 
-const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_includes_switch) {
+const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_includes_switch,concurrent = 8) {
   console.log(`arduino-esp32 compiler.compileFiles`);
+  const queue = new PQueue({concurrency: concurrent});
+
   fs.copyFileSync(`${platformDir}/main.cpp`, `${G.app_dir}/main.cpp`);
   sources.push(`${G.app_dir}/main.cpp`);
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     let cflags = `${G.cflags.join(" ")} ${boardcflags.join(" ")}`;
     let cppOptions = G.cpp_options.join(" ") + boardCppOptions.join(" ");
     let inc_switch = plugins_includes_switch.map(obj => `-I"${obj}"`).join(" ");
 
-    let finalFiles = [];
     console.log(`arduino-esp32/compiler.js`);
 
-    sources.forEach(async (file, idx, arr) => {
-      let filename = getName(file);
-      let fn_obj = `${G.app_dir}/${filename}.o`;
-      let cmd = `"${G.COMPILER_CPP}" ${cppOptions} ${cflags} ${inc_switch} -c "${file}" -o "${fn_obj}"`;
+    let exec = async function(file,cmd){
       try {
         console.log("comping => " + file);
         const {stdout, stderr} = await execPromise(ospath(cmd), {cwd: G.process_dir});
@@ -104,10 +90,6 @@ const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_inc
                  error: null,
                });
         }
-        finalFiles.push(fn_obj);
-        if(finalFiles.length === sources.length){ //compiled all file
-          resolve();
-        }
       } catch (e) {
         console.error(`[arduino-esp32].compiler.js catch something`, e.error);
         console.error(`[arduino-esp32].compiler.js >>> `, e);
@@ -117,7 +99,18 @@ const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_inc
         };
         reject(_e);
       }
-    });
+    };
+    for(let i in sources){
+      let file = sources[i];
+      let filename = getName(file);
+      let fn_obj = `${G.app_dir}/${filename}.o`;
+      let cmd = `"${G.COMPILER_CPP}" ${cppOptions} ${cflags} ${inc_switch} -c "${file}" -o "${fn_obj}"`;
+      //let cmd = file.endsWith(".c")? cmd_c : cmd_cpp;
+      queue.add(async ()=>{ await exec(file,cmd); });
+    }
+    await queue.onIdle();
+
+    resolve();
   });
 };
 
