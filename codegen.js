@@ -79,10 +79,10 @@ module.exports = {
           if(incFileRes){
             let incFile = incFileRes[1].trim();
             //lookup plugin
-            let includedPlugin = pluginInfo.categories.filter(obj=> obj.sourceFile.includes(incFile));
-            if(includedPlugin.length > 0){
-              plugins_includes_switch.push(includedPlugin[0].directory + "/src");
-              let targetCppFile = includedPlugin[0].directory + "/src/" + incFile.replace(".h",".cpp");
+            let includedPlugin = pluginInfo.categories.find(obj=> obj.sourceFile.includes(incFile));
+            if(includedPlugin){
+              plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
+              let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
               plugins_sources.push(targetCppFile);
             }
           }
