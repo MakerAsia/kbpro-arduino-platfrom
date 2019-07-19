@@ -105,14 +105,6 @@ class KBEvent
             uint32_t param,
             void *arg)
         {
-            //check existing name
-            for(auto const &el : subscribers)
-            {
-                if(strcmp(el.name,name) == 0)
-                {
-                    return;
-                }
-            }
             uint16_t uid = rand();
             KBIsrArg subscriber = {
                 name,
@@ -143,6 +135,14 @@ class KBEvent
                     attachInterruptArg(param,KBEvent::isr,&subscribers.back(),RISING);
                     break;
                 case KBEventType::EVERY:
+                    //check existing name
+                    for(auto const &el : subscribers)
+                    {
+                        if(strcmp(el.name,name) == 0)
+                        {
+                            return;
+                        }
+                    }
                     esp_timer_create_args_t _timerConfig;
                     _timerConfig.arg = arg;
                     _timerConfig.callback = callback;
