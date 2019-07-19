@@ -18,7 +18,8 @@ enum KBEventType
       PIN_RAISING,
       PIN_FALLING,
       EVERY,
-      ONCE
+      ONCE,
+      TASK
 };
 enum KBEventExecuteType{
         SEQUENTIAL,
@@ -96,7 +97,7 @@ class KBEvent
             }
             vTaskDelete( NULL );
         }
-        void inline attach(
+        void inline attach_master(
             const char *name,
             KBEventType type,
             KBEventExecuteType queue_type,
@@ -163,30 +164,35 @@ class KBEvent
                     esp_timer_start_once(subscriber.timer, param * 1000);
                     subscribers.push_back(subscriber);
                     break;
+                case KBEventType::TASK:
+                    xTaskCreate([](KBIsrArg *argc){
+                        argc->cb(argc->arg);
+                        vTaskDelete( NULL );
+                    }, "KBEVENT_NTASK", 2048, &subscriber, 128, NULL);
             }
             taskEXIT_CRITICAL( &kb_mux );
         }
         void inline attach(const char *name,KBEventType type,KBEventExecuteType queue_type,kb_callback_t callback,uint32_t param)
         {
-            attach(name,type,queue_type,reinterpret_cast<kb_callback_with_arg_t>(callback), param,NULL);
+            attach_master(name,type,queue_type,reinterpret_cast<kb_callback_with_arg_t>(callback), param,NULL);
         }
         template<typename TArg>
         void inline attach(const char *name,KBEventType type,KBEventExecuteType queue_type,void (*callback)(TArg),uint32_t param, TArg arg)
         {
             void *ptr;
             memcpy(&ptr, &arg, sizeof arg);
-            attach(name,type,queue_type,reinterpret_cast<kb_callback_with_arg_t>(callback), param, ptr);
+            attach_master(name,type,queue_type,reinterpret_cast<kb_callback_with_arg_t>(callback), param, ptr);
         }
         void inline attach(const char *name, KBEventType type,kb_callback_t callback,uint32_t param)
         {
-            attach(name,type,KBEventExecuteType::PARALLEL,reinterpret_cast<kb_callback_with_arg_t>(callback), param,NULL);
+            attach_master(name,type,KBEventExecuteType::PARALLEL,reinterpret_cast<kb_callback_with_arg_t>(callback), param,0);
         }
         template<typename TArg>
         void inline attach(const char *name, KBEventType type,void (*callback)(TArg),uint32_t param, TArg arg)
         {
             void *ptr;
             memcpy(&ptr, &arg, sizeof arg);
-            attach(name,type,KBEventExecuteType::PARALLEL,reinterpret_cast<kb_callback_with_arg_t>(callback), param, ptr);
+            attach_master(name,type,KBEventExecuteType::PARALLEL,reinterpret_cast<kb_callback_with_arg_t>(callback), param, ptr);
         }
         void inline enqueue(KBIsrArg *el)
         {
@@ -216,6 +222,7 @@ class KBEvent
             {
                 if(strcmp(name,el->name) == 0)
                 {
+                    //Serial.println(el->name);
                     if(disable_callback(el))
                     {
                         el--;
@@ -253,7 +260,7 @@ class KBEvent
             {
                 if(el->timer && el->timer != nullptr){
                     esp_timer_stop(el->timer);
-                    esp_timer_delete(el->timer);
+                    //esp_timer_delete(el->timer);// TODO : check here, this line cause error when detach
                     el->timer = nullptr;
                 }
                 subscribers.erase(el);
