@@ -6,7 +6,7 @@ module.exports = function(Blockly) {
 
       this.appendDummyInput()
         .appendField(new Blockly.FieldImage(
-          "https://image.flaticon.com/icons/svg/356/356490.svg",
+          "https://image.flaticon.com/icons/svg/138/138617.svg",
           24,
           24,
           "*"))
@@ -44,7 +44,7 @@ module.exports = function(Blockly) {
 
       this.appendDummyInput()
         .appendField(new Blockly.FieldImage(
-          "https://image.flaticon.com/icons/svg/356/356490.svg",
+          "https://image.flaticon.com/icons/svg/148/148833.svg",
           24,
           24,
           "*"))
@@ -61,6 +61,11 @@ module.exports = function(Blockly) {
   Blockly.Blocks["mqtt_publish_block"] = {
     init: function() {
       this.appendDummyInput()
+        .appendField(new Blockly.FieldImage(
+          "https://image.flaticon.com/icons/svg/148/148832.svg",
+          24,
+          24,
+          "*"))
         .appendField("MQTT PUBLISH");
       this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -81,6 +86,11 @@ module.exports = function(Blockly) {
   Blockly.Blocks["mqtt_subscribe_block"] = {
     init: function() {
       this.appendDummyInput()
+        .appendField(new Blockly.FieldImage(
+          "https://image.flaticon.com/icons/svg/148/148834.svg",
+          24,
+          24,
+          "*"))
         .appendField("MQTT SUBSCRIBE")
         .appendField(new Blockly.FieldTextInput("KBIDE/"), "MQTT_SUB_TOPIC");
       this.setPreviousStatement(true, null);
@@ -94,6 +104,11 @@ module.exports = function(Blockly) {
   Blockly.Blocks["mqtt_callback_block"] = {
     init: function() {
       this.appendDummyInput()
+        .appendField(new Blockly.FieldImage(
+          "https://image.flaticon.com/icons/svg/1122/1122395.svg",
+          24,
+          24,
+          "*"))
         .appendField("MQTT CALLBACK message arrived (topic, payload)")
         // .appendField(new Blockly.FieldTextInput(""), "MQTT_SUB_TOPIC");
         // .appendField(new Blockly.FieldVariable("topic"), "MQTT_SUB_TOPIC");
@@ -139,6 +154,11 @@ module.exports = function(Blockly) {
   Blockly.Blocks["mqtt_loop_block"] = {
     init: function() {
       this.appendDummyInput()
+        .appendField(new Blockly.FieldImage(
+          "https://image.flaticon.com/icons/svg/148/148833.svg",
+          24,
+          24,
+          "*"))
         .appendField("MQTT LOOP");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
