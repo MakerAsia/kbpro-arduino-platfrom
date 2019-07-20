@@ -66,26 +66,10 @@ module.exports = function(Blockly) {
 
 
     var code = `
-    #FUNCTION
-    
-    // typedef struct Node Node;
-
-    // struct Node
-    // {
-    //     String ${mqtt_sub_topic};
-    //     String ${mqtt_sub_payload};
-    // };
-    
-    // Node rootNode;
-    
+    #FUNCTION   
     void callback(const MQTT::Publish& pub) {
       String topic = String(pub.topic());
       String payload = pub.payload_string();
-      // rootNode.topic = pub.topic();
-      // rootNode.payload = pub.payload_string();
-      //Serial.print(pub.topic());
-      //Serial.print(" => ");
-      //Serial.println(pub.payload_string());
       ${statements_mqtt_statement}
     }
     #END
