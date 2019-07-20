@@ -1,0 +1,18 @@
+{
+  "name": "KB-MQTT",
+  "title": "MQTT library for ESP32",
+  "keywords": "MQTT, esp32",
+  "description": "KB MQTT Plugin for esp32",
+  "homepage": "",
+  "license": "MIT",
+  "git": "https://github.com/cmmakerclub/KB-MQTT/",
+  "author": "Maker Asia",
+  "email": "makerasia@gmail.com",
+  "url": "https://kbide.org/",
+  "version": "1.0.0",
+  "board": "",
+  "platform": [
+    "arduino-esp32"
+  ],
+  "image": "/static/display.png"
+}
