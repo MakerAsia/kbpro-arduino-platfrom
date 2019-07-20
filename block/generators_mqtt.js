@@ -60,25 +60,29 @@ module.exports = function(Blockly) {
   };
 
   Blockly.JavaScript["mqtt_callback_block"] = function(block) {
-    var statements_mqtt_statement = Blockly.JavaScript.statementToCode(block,
-      "MQTT_STATEMENT");
-    // TODO: Assemble JavaScript into code variable.
+    var statements_mqtt_statement = Blockly.JavaScript.statementToCode(block,"MQTT_STATEMENT");
+    var mqtt_sub_topic = block.getFieldValue("MQTT_SUB_TOPIC");
+    var mqtt_sub_payload = block.getFieldValue("MQTT_SUB_PAYLOAD");
+
+
     var code = `
     #FUNCTION
     
-    typedef struct Node Node;
+    // typedef struct Node Node;
 
-    struct Node
-    {
-        String topic;
-        String payload;
-    };
+    // struct Node
+    // {
+    //     String ${mqtt_sub_topic};
+    //     String ${mqtt_sub_payload};
+    // };
     
-    Node rootNode;
+    // Node rootNode;
     
     void callback(const MQTT::Publish& pub) {
-      rootNode.topic = pub.topic();
-      rootNode.payload = pub.payload_string();
+      String topic = String(pub.topic());
+      String payload = pub.payload_string();
+      // rootNode.topic = pub.topic();
+      // rootNode.payload = pub.payload_string();
       //Serial.print(pub.topic());
       //Serial.print(" => ");
       //Serial.println(pub.payload_string());
@@ -110,6 +114,20 @@ module.exports = function(Blockly) {
     mqtt.loop();
     `;
     return code;
+  };
+
+  Blockly.JavaScript['topic_block'] = function(block) {
+    // TODO: Assemble JavaScript into code variable.
+    var code = `topic`;
+    // TODO: Change ORDER_NONE to the correct strength.
+    return [code, Blockly.JavaScript.ORDER_NONE];
+  };
+  
+  Blockly.JavaScript['payload_block'] = function(block) {
+    // TODO: Assemble JavaScript into code variable.
+    var code = `payload`;
+    // TODO: Change ORDER_NONE to the correct strength.
+    return [code, Blockly.JavaScript.ORDER_NONE];
   };
 
 };

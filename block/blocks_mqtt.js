@@ -60,7 +60,7 @@ module.exports = function(Blockly) {
       this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("TOPIC")
-        .appendField(new Blockly.FieldTextInput(""), "MQTT_TOPIC");
+        .appendField(new Blockly.FieldTextInput("KBIDE/"), "MQTT_TOPIC");
       this.appendValueInput("NAME")
         .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -77,7 +77,7 @@ module.exports = function(Blockly) {
     init: function() {
       this.appendDummyInput()
         .appendField("MQTT SUBSCRIBE")
-        .appendField(new Blockly.FieldTextInput(""), "MQTT_SUB_TOPIC");
+        .appendField(new Blockly.FieldTextInput("KBIDE/"), "MQTT_SUB_TOPIC");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
       this.setColour(160);
@@ -89,9 +89,16 @@ module.exports = function(Blockly) {
   Blockly.Blocks["mqtt_callback_block"] = {
     init: function() {
       this.appendDummyInput()
-        .appendField("MQTT CALLBACK");
+        .appendField("MQTT CALLBACK Topic name")
+        // .appendField(new Blockly.FieldTextInput(""), "MQTT_SUB_TOPIC");
+        .appendField(new Blockly.FieldVariable("topic"), "MQTT_SUB_TOPIC");
+      this.appendDummyInput()
+        .appendField("Payload")
+        // .appendField(new Blockly.FieldTextInput(""), "MQTT_SUB_PAYLOAD");
+        .appendField(new Blockly.FieldVariable("payload"), "MQTT_SUB_PAYLOAD");
       this.appendStatementInput("MQTT_STATEMENT")
         .setCheck(null);
+      this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
       this.setColour(20);
@@ -131,6 +138,28 @@ module.exports = function(Blockly) {
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
       this.setColour(260);
+      this.setTooltip("");
+      this.setHelpUrl("");
+    }
+  };
+
+  Blockly.Blocks['topic_block'] = {
+    init: function() {
+      this.appendDummyInput()
+        .appendField("topic");
+      this.setOutput(true, null);
+      this.setColour(210);
+      this.setTooltip("");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Blocks['payload_block'] = {
+    init: function() {
+      this.appendDummyInput()
+        .appendField("payload");
+      this.setOutput(true, null);
+      this.setColour(210);
       this.setTooltip("");
       this.setHelpUrl("");
     }
