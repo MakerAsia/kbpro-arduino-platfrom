@@ -6,11 +6,11 @@ module.exports = function(Blockly) {
 
       this.appendDummyInput()
         .appendField(new Blockly.FieldImage(
-          "https://image.flaticon.com/icons/svg/1932/1932998.svg",
+          "https://image.flaticon.com/icons/svg/356/356490.svg",
           24,
           24,
           "*"))
-        .appendField("MQTT");
+        .appendField("MQTT Begin");
       this.appendDummyInput()
         .setAlign(Blockly.ALIGN_LEFT)
         .appendField("HOST")
@@ -43,6 +43,11 @@ module.exports = function(Blockly) {
         Math.random().toString(36).substring(5).toUpperCase();
 
       this.appendDummyInput()
+        .appendField(new Blockly.FieldImage(
+          "https://image.flaticon.com/icons/svg/356/356490.svg",
+          24,
+          24,
+          "*"))
         .appendField("CONNECT")
         .appendField(new Blockly.FieldTextInput(clientId), "MQTT_CLIENT_ID");
       this.setPreviousStatement(true, null);
@@ -89,13 +94,13 @@ module.exports = function(Blockly) {
   Blockly.Blocks["mqtt_callback_block"] = {
     init: function() {
       this.appendDummyInput()
-        .appendField("MQTT CALLBACK Topic name")
+        .appendField("MQTT CALLBACK message arrived (topic, payload)")
         // .appendField(new Blockly.FieldTextInput(""), "MQTT_SUB_TOPIC");
-        .appendField(new Blockly.FieldVariable("topic"), "MQTT_SUB_TOPIC");
-      this.appendDummyInput()
-        .appendField("Payload")
+        // .appendField(new Blockly.FieldVariable("topic"), "MQTT_SUB_TOPIC");
+      // this.appendDummyInput()
+        // .appendField("Payload name(payload)")
         // .appendField(new Blockly.FieldTextInput(""), "MQTT_SUB_PAYLOAD");
-        .appendField(new Blockly.FieldVariable("payload"), "MQTT_SUB_PAYLOAD");
+        // .appendField(new Blockly.FieldVariable("payload"), "MQTT_SUB_PAYLOAD");
       this.appendStatementInput("MQTT_STATEMENT")
         .setCheck(null);
       this.setInputsInline(true);
