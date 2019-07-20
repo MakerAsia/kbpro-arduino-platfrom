@@ -165,10 +165,8 @@ class KBEvent
                     subscribers.push_back(subscriber);
                     break;
                 case KBEventType::TASK:
-                    xTaskCreate([](KBIsrArg *argc){
-                        argc->cb(argc->arg);
-                        vTaskDelete( NULL );
-                    }, "KBEVENT_NTASK", 2048, &subscriber, 128, NULL);
+                    const char *task_name = String(uid).c_str();
+                    xTaskCreate(callback,task_name, 2048, arg, 128, NULL);
             }
             taskEXIT_CRITICAL( &kb_mux );
         }

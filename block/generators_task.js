@@ -95,6 +95,7 @@ kbevt.attach("",KBEventType::ONCE,
 kbevt.attach("",KBEventType::TASK,
   [](){
     ${statements_callback}
+    vTaskDelete( NULL );
   },0);
 \n`;
     return code;
@@ -107,6 +108,7 @@ kbevt.attach("",KBEventType::TASK,
 kbevt.attach("",KBEventType::TASK,
   [](){
     ${statements_callback}
+    vTaskDelete( NULL );
   },0);
 #END
 \n`;
