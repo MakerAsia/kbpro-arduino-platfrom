@@ -65,7 +65,9 @@ module.exports = {
             if(includedPlugin){
               plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
               let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
-              plugins_sources.push(targetCppFile);
+              if(fs.existsSync(targetCppFile)){
+                plugins_sources.push(targetCppFile);
+              }
             }
           }
         }
