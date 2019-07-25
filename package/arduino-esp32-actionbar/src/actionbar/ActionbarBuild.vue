@@ -80,7 +80,7 @@
 <script>
   const engine = Vue.prototype.$engine;
   const G = Vue.prototype.$global;
-  var path = `${engine.util.boardDir}/${G.board.board}/compiler.js`;
+  var path = `${G.board.board_info.dir}/compiler.js`;
   var boardCompiler = engine.util.requireFunc(path);
 
   var comport = "";
