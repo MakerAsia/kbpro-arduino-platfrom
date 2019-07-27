@@ -33,21 +33,6 @@ Blockly.Blocks['time_delay'] = {
     }
   };
 
-Blockly.Blocks['time_wait_btn_press'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("wait button")
-        .appendField(new Blockly.FieldDropdown([["button_A","14"], ["button_B","27"]]), "NAME")
-        .appendField("press");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(0);
- this.setTooltip("waiting for button pressed");
- this.setHelpUrl("");
-  }
-};
-
 Blockly.Blocks['time_sync'] = {
   init: function() {
     this.appendDummyInput()

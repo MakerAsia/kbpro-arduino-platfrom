@@ -127,7 +127,6 @@ module.exports = {
                         </value>
                     </block>`
                 },
-                'time_wait_btn_press',
                 'time_sync',
                 'time_get_year',
                 'time_get_month',

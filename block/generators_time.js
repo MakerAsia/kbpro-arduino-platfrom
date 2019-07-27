@@ -14,12 +14,6 @@ Blockly.JavaScript['time_delay_microsec'] = function(block) {
 };
 
 
-Blockly.JavaScript['time_wait_btn_press'] = function(block) {
-  var dropdown_name = block.getFieldValue('NAME');  
-  var code = `while(!digitalRead(${dropdown_name}));\n`;
-  return code;
-};
-
 Blockly.JavaScript['time_sync'] = function(block) {  
   var code = `#EXTINC#include "KBProTime.h"#END
 #VARIABLE KBProTime kbprotime;#END
