@@ -64,10 +64,14 @@ module.exports = {
             let includedPlugin = pluginInfo.categories.find(obj=> obj.sourceFile.includes(incFile));
             if(includedPlugin){
               plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
-              let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
+              /*let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
               if(fs.existsSync(targetCppFile)){
                 plugins_sources.push(targetCppFile);
-              }
+              }*/
+              let cppFiles = includedPlugin.sourceFile
+              					.filter(el=>el.endsWith(".cpp") || el.endsWith(".c"))
+              					.map(el=>includedPlugin.sourceIncludeDir + "/" +el);
+              plugins_sources.push(...cppFiles);
             }
           }
         }
