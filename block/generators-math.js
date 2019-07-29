@@ -1,6 +1,14 @@
 module.exports = function(Blockly){
 'use strict';
 
+Blockly.JavaScript['math_number'] = function(block) {
+  // Numeric value.
+  var code = parseFloat(block.getFieldValue('NUM'));
+  var order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
+              Blockly.JavaScript.ORDER_UNARY_NEGATION;
+  return [code, order];
+};
+
 Blockly.JavaScript['math_random_int'] = function(block) {
     var num1 = block.getFieldValue('FROM') || '0';
     var num2 = block.getFieldValue('TO') || '0';

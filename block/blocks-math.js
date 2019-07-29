@@ -3,6 +3,27 @@ module.exports = function(Blockly){
 // =============================================================================
 //math Addiditon
 // =============================================================================
+  
+Blockly.Blocks["math_number"] = {
+init: function () {
+		this.jsonInit(
+			{
+			    "type": "math_number",
+			    "message0": "%1",
+			    "args0": [{
+			      "type": "field_number",
+			      "name": "NUM",
+			      "value": 0
+			    }],
+			    "output": "Number",
+			    "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
+			    "style": "math_blocks",
+			    "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
+			    "extensions": ["parent_tooltip_when_inline"]
+			}
+		);
+	};
+};
 Blockly.Blocks["math_single"] = {
 	init: function () {
 		this.jsonInit({
