@@ -22,7 +22,7 @@ init: function () {
 			    "extensions": ["parent_tooltip_when_inline"]
 			}
 		);
-	};
+	}
 };
 Blockly.Blocks["math_single"] = {
 	init: function () {
