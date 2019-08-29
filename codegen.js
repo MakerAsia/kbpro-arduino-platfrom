@@ -57,9 +57,13 @@ module.exports = {
         source_code = res.code;
         let incFiles = res.res["#EXTINC"];
         for(let ix in incFiles){
-          let incFileRes = /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm.exec(incFiles[ix]);
-          if(incFileRes){
-            let incFile = incFileRes[1].trim();
+          //let incFileRes = /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm.exec(incFiles[ix]);
+          let incsRex =    /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm;
+          let m;
+          while (m = incsRex.exec(incFiles)) {
+          //if(incFileRes){
+            //let incFile = incFileRes[1].trim();
+            let incFile = m[1].trim();
             //lookup plugin
             let includedPlugin = pluginInfo.categories.find(obj=> obj.sourceFile.includes(incFile));
             if(includedPlugin){
