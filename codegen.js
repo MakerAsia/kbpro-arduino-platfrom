@@ -60,18 +60,16 @@ module.exports = {
           //let incFileRes = /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm.exec(incFiles[ix]);
           let incsRex =    /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm;
           let m;
-          while (m = incsRex.exec(incFiles)) {
-          //if(incFileRes){
-            //let incFile = incFileRes[1].trim();
+          while (m = incsRex.exec(incFiles[ix])) {
             let incFile = m[1].trim();
-            //lookup plugin
-            let includedPlugin = pluginInfo.categories.find(obj=> obj.sourceFile.includes(incFile));
+            //lookup plugin exist inc file and not added to compiled files.
+            let includedPlugin = pluginInfo.categories.find(
+              obj=>
+                obj.sourceFile.includes(incFile) &&
+                !plugins_includes_switch.includes(obj.sourceIncludeDir)
+            );
             if(includedPlugin){
               plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
-              /*let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
-              if(fs.existsSync(targetCppFile)){
-                plugins_sources.push(targetCppFile);
-              }*/
               let cppFiles = includedPlugin.sourceFile
               					.filter(el=>el.endsWith(".cpp") || el.endsWith(".c"))
               					.map(el=>includedPlugin.sourceIncludeDir + "/" +el);

@@ -88,13 +88,10 @@ function compile(rawCode, boardName, config, cb) {
     }
     //---- inc folder ----//
     let app_dir = `${boardDirectory}/build/${boardName}`;
-    let inc_src = engine.util.walk(boardIncludeDir)
-      .filter(file => path.extname(file) === ".cpp" || path.extname(file) === ".c");
-    inc_src = inc_src.concat(engine.util.walk(platformIncludeDir)
-      .filter(file => path.extname(file) === ".cpp" || path.extname(file) === ".c"));
+    let inc_src = [];
     let inc_switch = [];
     //--- step 1 load template and create full code ---//
-    let sourceCode = null
+    let sourceCode = null;
     let codeContext = null;
     if (config.isSourceCode) {
       sourceCode = rawCode;
@@ -108,8 +105,12 @@ function compile(rawCode, boardName, config, cb) {
       let m;
       while (m = incsRex.exec(sourceCode)) {
         let incFile = m[1].trim();
-        //lookup plugin
-        let includedPlugin = pluginInfo.categories.find(obj=> obj.sourceFile.includes(incFile));
+        //lookup plugin exist inc file and not added to compiled files.
+        let includedPlugin = pluginInfo.categories.find(
+          obj=>
+            obj.sourceFile.includes(incFile) &&
+            !codeContext.plugins_includes_switch.includes(obj.sourceIncludeDir)
+        );
         if(includedPlugin){
           codeContext.plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
           let cppFiles = includedPlugin.sourceFile
@@ -126,6 +127,19 @@ function compile(rawCode, boardName, config, cb) {
     //----- plugin file src ----//
     inc_src = inc_src.concat(codeContext.plugins_sources);
     inc_switch = inc_switch.concat(codeContext.plugins_includes_switch);
+    // filter only unique file name (give priority to plugin first)
+    // merge board include file
+    inc_src = inc_src.concat(engine.util.walk(boardIncludeDir).filter(
+      file =>
+        (path.extname(file) === ".cpp" || path.extname(file) === ".c")
+        && inc_src.find(el=>el.endsWith(path.basename(file))) == null
+    ));
+    // merge platform include file
+    inc_src = inc_src.concat(engine.util.walk(platformIncludeDir).filter(
+      file =>
+        (path.extname(file) === ".cpp" || path.extname(file) === ".c")
+        && inc_src.find(el=>el.endsWith(path.basename(file))) == null
+    ));
     //------ clear build folder and create new one --------//
     if (fs.existsSync(app_dir)) {
       engine.util.rmdirf(app_dir);
