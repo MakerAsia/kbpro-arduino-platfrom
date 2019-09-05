@@ -100,7 +100,7 @@ function compile(rawCode, boardName, config, cb) {
         plugins_sources: [],
         plugins_includes_switch: [],
       };
-      let pluginInfo = G.plugin.pluginInfo;
+      let pluginInfo = GB.plugin.pluginInfo;
       let incsRex = /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm;
       let m;
       while (m = incsRex.exec(sourceCode)) {
