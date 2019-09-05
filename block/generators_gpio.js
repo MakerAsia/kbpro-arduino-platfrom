@@ -36,11 +36,12 @@ Blockly.JavaScript['io_analog_write'] = function(block) {
 
 Blockly.JavaScript['io_pwm_write'] = function(block) {
   var value_pin = Blockly.JavaScript.valueToCode(block, 'pin', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);  
+  var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
+  var number_timer = block.getFieldValue('timer');
   var code = `
-    #SETUP  ledcSetup(0, 5000, 8);#END
-    #SETUP  ledcAttachPin(${value_pin}, 0);#END
-    ledcWrite(0, ${value_value});
+    #SETUP  ledcSetup(${number_timer}, 5000, 8);#END
+    #SETUP  ledcAttachPin(${value_pin}, ${number_timer});#END
+    ledcWrite(${number_timer}, ${value_value});
   `;
   return code;
 };

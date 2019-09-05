@@ -86,6 +86,10 @@ Blockly.Blocks['io_pwm_write'] = {
     this.appendValueInput("value")
         .setCheck("Number")
         .appendField("value");
+    this.appendDummyInput()
+      .appendField("(timer ")
+      .appendField(new Blockly.FieldNumber(0, 0, 7), "timer")
+      .appendField(")");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
