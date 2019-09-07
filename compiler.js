@@ -15,6 +15,7 @@ var motherPlatform = "esp-idf";
 var motherPlatformDir = `${engine.util.platformDir}/${motherPlatform}`;
 var platformDir = `${engine.util.platformDir}/${platformName}`;
 var platformLibDir = `${platformDir}/lib`;
+var toolDir = `${motherPlatformDir}/tools`;
 //---- idf platform ----//
 const idf = require(`${motherPlatformDir}/compiler`);
 
@@ -256,6 +257,30 @@ const linkObject = function(ldflags, extarnal_libflags) {
   return execPromise(ospath(cmd), {cwd: G.process_dir});
 };
 
+function flash(port, baudrate, stdio, partition, flash_mode = "dio",
+               flash_freq = "40m") {
+  baudrate = baudrate || 115200;
+  partition = partition || {
+    "0xe000": `${motherPlatformDir}/tools/partitions/boot_app0.bin`,
+    "0x1000": `${platformDir}/sdk/bin/bootloader_dio_40m.bin`,
+    "0x8000": `${motherPlatformDir}/tools/partitions/default.bin`,
+    "0x10000": `${G.app_dir}/${G.board_name}.bin`,
+  };
+  let formatStringPart = Object.keys(partition).
+  map(p => `${p} "%s"`).
+  join(" ");
+  let formatValue = Object.values(partition);
+  stdio = stdio || "inherit";
+  var flash_cmd = util.format(
+    `"${esptool()}" --chip esp32 %s --before "default_reset" --after "hard_reset" write_flash -z --flash_mode "${flash_mode}" --flash_freq "${flash_freq}" --flash_size detect ${formatStringPart}`,
+    `--port "${port}" --baud ${baudrate}`,
+    ...formatValue,
+  );
+  return execPromise(ospath(flash_cmd), {
+    cwd: G.process_dir,
+    stdio,
+  });
+}
 //-------- heritance somefunction from esp-idf ----------//
 
 let exp = {};
@@ -266,6 +291,7 @@ Object.assign(exp,
                 setConfig,
                 linkObject,
                 compileFiles,
+                flash,
               },
 );
 
