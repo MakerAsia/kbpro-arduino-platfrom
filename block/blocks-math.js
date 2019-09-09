@@ -17,7 +17,7 @@ init: function () {
 			    }],
 			    "output": "Number",
 			    "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
-			    "style": "math_blocks",
+					"colour": Blockly.Msg.MATH_HUE,
 			    "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
 			    "extensions": ["parent_tooltip_when_inline"]
 			}
