@@ -24,6 +24,7 @@ init: function () {
 		);
 	}
 };
+
 Blockly.Blocks["math_single"] = {
 	init: function () {
 		this.jsonInit({
