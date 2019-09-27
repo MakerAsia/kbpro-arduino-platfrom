@@ -3,10 +3,12 @@ module.exports = {
                             <block type="arduino_init" deletable="false" x="-100" y="-50">
                             </block><block type="arduino_loop" deletable="false" x="100" y="-50"></block>
                       </xml>`,
+    blocks : [],
     base_blocks : [ // use "blocks : [ " in normally situation but this need to override base block from esp-idf platforms
         {
             name : 'GPIO',
             color : '230',
+            index : 10,
             icon : '/static/icons/icons8_electronics_96px.png',
             blocks : [
                 {
@@ -105,6 +107,7 @@ module.exports = {
         {
             name : 'Time',
             color : '230',
+            index : 20,
             icon : '/static/icons/icons8_Story_Time_96px.png',
             blocks : [
                 {
@@ -141,6 +144,7 @@ module.exports = {
         },
         {
             name : 'Variables',
+            index : 30,
             color : '230',
             icon : '/static/icons/icons8_variable_96px.png',
             custom : 'VARIABLE'
@@ -148,6 +152,7 @@ module.exports = {
         {
             name : 'Math',
             color : '230',
+            index : 40,
             icon : '/static/icons/calculator.png',
             blocks : [
                 'math_number',
@@ -242,6 +247,7 @@ module.exports = {
         {
             name : 'Logic',
             color : '230',
+            index : 50,
             icon : '/static/icons/icons8_serial_tasks_96px.png',
             blocks : [
                 'controls_if',
@@ -254,6 +260,7 @@ module.exports = {
         {
             name : 'Loops',
             color : '230',
+            index : 60,
             icon : '/static/icons/icons8_repeat_96px.png',
             blocks : [
                 'basic_forever',
@@ -284,46 +291,20 @@ module.exports = {
         {
             name : 'Advanced',
             color : '195',
+            index : 70,
             icon : '/static/icons/icons8_hacker_128px.png',
             blocks : [
                 {
                     type : 'category',
                     name : 'Functions',
+                    index : 10,
                     icon : '/static/icons/icons8_module_96px.png',
                     custom : 'PROCEDURE'
                 },
-                /*{
-                    type : 'category',
-                    name : 'Tasks',
-                    icon : '/static/icons/icons8_exercise_96px.png',
-                    blocks : [
-                        'create task',
-                        'start task',
-                        'stop task'
-                    ]
-                },*/
-                /*{
-                    type : 'category',
-                    name : 'Arrays',
-                    icon : '/static/icons/icons8_stack_96px.png',
-                    blocks : [
-                        'lists_create_empty',
-                        'lists_repeat',
-                        'lists_reverse',
-                        'lists_isEmpty',
-                        'lists_length',
-                        'lists_create_with',
-                        'lists_indexOf',
-                        'lists_getIndex',
-                        'lists_setIndex',
-                        'lists_getSublist',
-                        'lists_sort',
-                        'lists_split',
-                    ]
-                },*/
                 {
                     type : 'category',
                     name : 'Text',
+                    index : 20,
                     icon : '/static/icons/icons8_text_color_96px.png',
                     blocks : [
                         'basic_string',                        
@@ -416,6 +397,7 @@ module.exports = {
                 {
                     type : 'category',
                     name : 'WiFi',
+                    index : 30,
                     icon : '/static/icons/icons8_wifi_router_96px.png',
                     blocks : [
                         'wifi_connect',    
@@ -466,6 +448,7 @@ module.exports = {
                 {
                     type : 'category',
                     name : 'Bluetooth',
+                    index : 40,
                     icon : '/static/icons/icons8_bluetooth_2_96px.png',
                     blocks : [
                         'bt_start',
@@ -487,6 +470,7 @@ module.exports = {
                 {
                     type : 'category',
                     name : 'Serial',
+                    index : 50,
                     icon : '/static/icons/SVG/13.svg',
                     blocks : [
                         'serial_usb_init',
@@ -509,8 +493,91 @@ module.exports = {
                     ]
                 },
                 {
+                    type: "category",
+                    name: "Task",
+                    icon: "/static/icons/SVG/13.svg",
+                    blocks: [
+                        { xml: "<label text=\"Custom start\" web-class=\"headline\"></label>" },
+                        {
+                            xml:
+                              `<block type="task_io_interrupt">
+                                <value name="pin">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                            </block>`
+                        },
+                        {
+                            xml: `<block type="task_timer_interrupt">
+                                    <value name="delay">
+                                        <shadow type="math_number">
+                                            <field name="NUM">500</field>
+                                        </shadow>
+                                    </value>
+                               </block>`
+                        },
+                        {
+                            xml: `<block type="task_timer_interrupt_once">
+                                        <value name="delay">
+                                            <shadow type="math_number">
+                                                <field name="NUM">500</field>
+                                            </shadow>
+                                        </value>
+                                   </block>`
+                        },
+                        "task_task",
+                        {
+                            xml: `<sep gap="32"></sep><label text="Auto start" web-class="headline"></label>`
+                        },
+                        {
+                            xml:
+                              `<block type="task_io_interrupt_ext">
+                                <value name="pin">
+                                    <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                    </shadow>
+                                </value>
+                            </block>`
+                        },
+                        {
+                            xml: `<block type="task_timer_interrupt_ext">
+                                    <value name="delay">
+                                        <shadow type="math_number">
+                                            <field name="NUM">500</field>
+                                        </shadow>
+                                    </value>
+                               </block>`
+                        },
+                        {
+                            xml: `<block type="task_timer_interrupt_once_ext">
+                                        <value name="delay">
+                                            <shadow type="math_number">
+                                                <field name="NUM">500</field>
+                                            </shadow>
+                                        </value>
+                                   </block>`
+                        },
+                        "task_task_ext",
+                        {
+                            xml: `<sep gap="32"></sep><label text="Stopper" web-class="headline"></label>`
+                        },
+                        "task_detach_timer",
+                        {
+                            xml: `<block type="task_detach_gpio">
+                                        <value name="pin">
+                                            <shadow type="math_number">
+                                                <field name="NUM">1</field>
+                                            </shadow>
+                                        </value>
+                                   </block>`
+                        }
+                    ]
+                },
+                {
                     type : 'category',
                     name : 'MQTT',
+                    index : 60,
                     icon : '/static/icons/SVG/13.svg',
                     blocks : [
                         'mqtt_block',
