@@ -19,6 +19,11 @@ var toolDir = `${motherPlatformDir}/tools`;
 //---- idf platform ----//
 const idf = require(`${motherPlatformDir}/compiler`);
 
+const log = msg => {
+  console.log(`[arduino-esp32] : ${msg}`);
+  GB.$emit("compile-log",`[arduino-esp32] : ${msg}`);
+};
+
 const ospath = function(p) {
   if (process.platform == "win32") {
     return p.replace(/\//g, "\\");
@@ -77,7 +82,7 @@ function compile(rawCode, boardName, config, cb) {
   let platformIncludeDir = `${platformDirectory}/include`;
   let context = JSON.parse(fs.readFileSync(boardDirectory + "/context.json", "utf8"));
 
-  console.log(`[kbpro] compiler.compile platformDir = ${platformDirectory}`);
+  log(`compiler.compile platformDir = ${platformDirectory}`);
 
   return new Promise((resolve, reject) => {
     //--- init ---//
@@ -87,6 +92,7 @@ function compile(rawCode, boardName, config, cb) {
     } else {
       codegen = engine.util.requireFunc(`${platformDirectory}/codegen`);
     }
+    log('>>> Generate Code ...');
     //---- inc folder ----//
     let app_dir = `${boardDirectory}/build/${boardName}`;
     let inc_src = [];
@@ -113,6 +119,7 @@ function compile(rawCode, boardName, config, cb) {
             !codeContext.plugins_includes_switch.includes(obj.sourceIncludeDir)
         );
         if(includedPlugin){
+          log("Include Plugin to compiler => " + includedPlugin.category.name);
           codeContext.plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
           let cppFiles = includedPlugin.sourceFile
             .filter(el=>el.endsWith(".cpp") || el.endsWith(".c"))
@@ -174,7 +181,7 @@ function compile(rawCode, boardName, config, cb) {
     inc_src.push(`${app_dir}/user_app.cpp`);
     setConfig(contextBoard);
 
-    engine.util.promiseTimeout(1000).then(() => {
+    engine.util.promiseTimeout(100).then(() => {
       return compileFiles(inc_src, [], cflags, inc_switch);
     }).then(() => {
       return idf.archiveProgram(inc_src);
@@ -194,9 +201,8 @@ function compile(rawCode, boardName, config, cb) {
 
 //=====================================//
 
-
 const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_includes_switch,concurrent = 8) {
-  console.log(`arduino-esp32 compiler.compileFiles`);
+  log('>>> Compile Files ...');
   const queue = new PQueue({concurrency: concurrent});
 
   fs.copyFileSync(`${platformDir}/main.cpp`, `${G.app_dir}/main.cpp`);
@@ -205,24 +211,22 @@ const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_inc
     let cflags = `${G.cflags.join(" ")} ${boardcflags.join(" ")}`;
     let cppOptions = G.cpp_options.join(" ") + boardCppOptions.join(" ");
     let inc_switch = plugins_includes_switch.map(obj => `-I"${obj}"`).join(" ");
-
-    console.log(`arduino-esp32/compiler.js`);
-
     let exec = async function(file,cmd){
       try {
-        console.log("comping => " + file);
+        log("Compiling => " + file);
         const {stdout, stderr} = await execPromise(ospath(cmd), {cwd: G.process_dir});
         if (!stderr) {
-          console.log(`compiling... ${file} ok.`);
+          log(`Compiled ... ${file} OK.`);
           G.cb(`compiling... ${path.basename(file)} ok.`);
         } else {
-          console.log(`compiling... ${file} ok. (with warnings)`);
+          log(`Compiled... ${file} OK. (with warnings)`);
           G.cb({
                  file: path.basename(file),
                  error: null,
                });
         }
       } catch (e) {
+        log("Compile Error : " + e);
         console.error(`[arduino-esp32].compiler.js catch something`, e.error);
         console.error(`[arduino-esp32].compiler.js >>> `, e);
         let _e = {
@@ -241,13 +245,12 @@ const compileFiles = function(sources, boardCppOptions, boardcflags, plugins_inc
       queue.add(async ()=>{ await exec(file,cmd); });
     }
     await queue.onIdle();
-
     resolve();
   });
 };
 
 const linkObject = function(ldflags, extarnal_libflags) {
-  console.log(`linking... ${G.ELF_FILE}`);
+  log(`>>> Linking... ${G.ELF_FILE}`);
   G.cb(`linking... ${G.ELF_FILE}`);
   let flags = G.ldflags.concat(ldflags);
   let libflags = (extarnal_libflags) ? G.ldlibflag.concat(extarnal_libflags).
@@ -276,6 +279,7 @@ function flash(port, baudrate, stdio, partition, flash_mode = "dio",
     `--port "${port}" --baud ${baudrate}`,
     ...formatValue,
   );
+  log(`Flashing ... ${G.app_dir}/${G.board_name}.bin`);
   return execPromise(ospath(flash_cmd), {
     cwd: G.process_dir,
     stdio,
