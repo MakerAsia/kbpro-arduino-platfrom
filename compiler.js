@@ -192,7 +192,7 @@ function compile(rawCode, boardName, config, cb) {
     }).then(() => {
       resolve();
     }).catch(msg => {
-      console.log("error msg : " + msg);
+      log("error msg : " + msg);
       reject(msg);
     });
   });

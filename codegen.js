@@ -1,8 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const log = require('./log');
-
-
 //---- setup dir ----//
 const engine = Vue.prototype.$engine;
 const G = Vue.prototype.$global;

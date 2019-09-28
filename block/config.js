@@ -495,6 +495,7 @@ module.exports = {
                 {
                     type: "category",
                     name: "Task",
+                    index : 60,
                     icon: "/static/icons/SVG/13.svg",
                     blocks: [
                         { xml: "<label text=\"Custom start\" web-class=\"headline\"></label>" },
@@ -577,7 +578,7 @@ module.exports = {
                 {
                     type : 'category',
                     name : 'MQTT',
-                    index : 60,
+                    index : 70,
                     icon : '/static/icons/SVG/13.svg',
                     blocks : [
                         'mqtt_block',
@@ -593,4 +594,4 @@ module.exports = {
             ]
         }
     ]
-}
+};
