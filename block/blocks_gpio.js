@@ -37,7 +37,7 @@ Blockly.Blocks['io_digital_write'] = {
         .setCheck("Number")
         .appendField("digital write pin");
     this.appendValueInput("value")
-        .setCheck("Number")
+        .setCheck(["Number","Boolean"])
         .appendField("value");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
