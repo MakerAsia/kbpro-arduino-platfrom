@@ -7,7 +7,7 @@ module.exports = {
   git: "",
   image: "",
   version: "1.0.0",
-  component: [
+  components: [
     "actionbar-just-compile",
     "actionbar-build",
     "actionbar-setting",
