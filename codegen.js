@@ -20,7 +20,8 @@ const resolveCode = function(finds,code,res)
       if(new RegExp(finds.join("|")).test(subCode)){ //contain sub
         let r = resolveCode(finds,subCode,res);
         res = r.res;
-        code = r.code;
+        subCode = r.code;
+        code = code.substring(0,startPos) + subCode + code.substring(endPos);
         ind--;
         continue; //restart again
       }else{
