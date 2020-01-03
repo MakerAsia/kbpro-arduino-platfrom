@@ -3,7 +3,13 @@ module.exports = function(Blockly){
 
 Blockly.JavaScript['math_number'] = function(block) {
   // Numeric value.
-  var code = parseFloat(block.getFieldValue('NUM'));
+  var value = block.getFieldValue("NUM");
+  if(value.includes(".")){ //floating point number
+  	block.setOutput(true,["double","Number"]);
+  }else{
+  	block.setOutput(true,["Number"]);
+  }
+  var code = parseFloat(value);
   var order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
               Blockly.JavaScript.ORDER_UNARY_NEGATION;
   return [code, order];
